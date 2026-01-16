@@ -1,6 +1,6 @@
-# Ask Marilyn About Software Testing
+# Ask Marilyn
 
-A comprehensive, interactive web-based course teaching **Action-Based Testing (ABT)** methodology through the persona of Marilyn vos Savant. This application delivers structured learning content with gamification elements, progress tracking, and community features.
+A comprehensive, interactive web-based course teaching **Action-Based Testing (ABT)** methodology through the persona of Marilyn. This application delivers structured learning content with gamification elements, progress tracking, and community features.
 
 ---
 
@@ -25,7 +25,7 @@ A comprehensive, interactive web-based course teaching **Action-Based Testing (A
 
 ## Overview
 
-Ask Marilyn is an educational platform designed to teach software testers and developers the principles of Action-Based Testing. The course content is presented through a unique editorial format inspired by Marilyn vos Savant's "Ask Marilyn" column, making complex testing concepts accessible and engaging.
+Ask Marilyn is an educational platform designed to teach software testers and developers the principles of Action-Based Testing. The course content is presented through a unique editorial format inspired by Marilyn vos Savant's "Ask Marilyn" column, making complex concepts accessible and engaging.
 
 The platform includes ten core modules covering ABT fundamentals, three bonus courses on related topics, interactive challenges, and a comprehensive progress tracking system with certificates and badges.
 
@@ -213,7 +213,7 @@ VITE_ANALYTICS_ENDPOINT=your-analytics-endpoint
 VITE_ANALYTICS_WEBSITE_ID=your-website-id
 
 # Application Branding
-VITE_APP_TITLE=Ask Marilyn About Software Testing
+VITE_APP_TITLE=Ask Marilyn
 VITE_APP_LOGO=/logo.svg
 ```
 
