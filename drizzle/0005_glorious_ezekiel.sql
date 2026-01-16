@@ -1,0 +1,2 @@
+ALTER TABLE `badges` MODIFY COLUMN `badgeType` enum('perfect_quiz','perfect_refactoring','perfect_boss','first_attempt','speed_runner','master_logician','early_adopter','completionist','streak_master','abt_fundamentals_complete','coding_style_complete','commenting_complete','technical_writing_complete','all_courses_complete') NOT NULL;--> statement-breakpoint
+ALTER TABLE `badges` ADD `courseId` varchar(64);

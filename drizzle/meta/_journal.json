@@ -1,0 +1,48 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1767757442438,
+      "tag": "0000_sharp_gunslinger",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1767757518576,
+      "tag": "0001_luxuriant_bullseye",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1767758832545,
+      "tag": "0002_special_blockbuster",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1767812171688,
+      "tag": "0003_medical_monster_badoon",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1768197578250,
+      "tag": "0004_empty_cable",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1768222046121,
+      "tag": "0005_glorious_ezekiel",
+      "breakpoints": true
+    }
+  ]
+}
