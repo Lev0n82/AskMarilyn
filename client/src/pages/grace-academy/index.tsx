@@ -13,8 +13,11 @@ import {
   BookOpen,
   Clock,
   Award,
-  Sparkles
+  Sparkles,
+  BarChart3,
+  Settings
 } from "lucide-react";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 const tracks = [
   {
@@ -53,6 +56,8 @@ const tracks = [
 ];
 
 export default function GraceAcademyIndex() {
+  const { user, isAuthenticated } = useAuth();
+  
   return (
     <Layout>
       <div className="space-y-12">
@@ -178,6 +183,26 @@ export default function GraceAcademyIndex() {
             </div>
           </div>
         </section>
+
+        {/* User Actions */}
+        {isAuthenticated && (
+          <section className="flex flex-wrap justify-center gap-4">
+            <Link href="/grace-academy/dashboard">
+              <Button variant="outline" size="lg" className="gap-2">
+                <BarChart3 className="w-5 h-5" />
+                My Progress
+              </Button>
+            </Link>
+            {user?.role === 'admin' && (
+              <Link href="/grace-academy/admin">
+                <Button variant="outline" size="lg" className="gap-2">
+                  <Settings className="w-5 h-5" />
+                  Admin Panel
+                </Button>
+              </Link>
+            )}
+          </section>
+        )}
 
         {/* CTA */}
         <section className="text-center py-8">

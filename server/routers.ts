@@ -3,7 +3,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { z } from "zod";
-import { submitScore, getTopScores, awardBadge, getUserBadges, createForumPost, getForumPosts, getForumPostById, createForumReply, getPostReplies, recordActivity, getUserStreak, recordQuizAttempt, getQuizAttempts, upsertCourseProgress, getCourseProgress, upsertTopicProgress, getTopicProgress, getQuizStats, issueCertificate, getUserCertificates, getCertificateByNumber, addToSpacedRepetition, getDueReviews, markReviewComplete, getSpacedRepetitionStats, updateCommunityStats, getCommunityStats, getUserRankInCourse } from "./db";
+import { submitScore, getTopScores, awardBadge, getUserBadges, createForumPost, getForumPosts, getForumPostById, createForumReply, getPostReplies, recordActivity, getUserStreak, recordQuizAttempt, getQuizAttempts, upsertCourseProgress, getCourseProgress, upsertTopicProgress, getTopicProgress, getQuizStats, issueCertificate, getUserCertificates, getCertificateByNumber, addToSpacedRepetition, getDueReviews, markReviewComplete, getSpacedRepetitionStats, updateCommunityStats, getCommunityStats, getUserRankInCourse, getAllGraceModules, getGraceModulesByTrack, getGraceModuleByNumber, createGraceModule, updateGraceModule, getGraceQuizQuestions, createGraceQuizQuestion, getGraceCrucibleChallenge, createGraceCrucibleChallenge, getGraceUserProgress, getAllGraceUserProgress, markGraceSectionComplete, createGraceQuizAttempt, createGraceCrucibleSubmission, getGraceCrucibleSubmissions, getAllGraceCrucibleSubmissions, updateGraceCrucibleSubmission, getGraceUserCertificates, checkAndAwardGraceCertificates, verifyGraceCertificate, getAllGraceUsers } from "./db";
 import { notifyOwner } from "./_core/notification";
 
 export const appRouter = router({
@@ -456,6 +456,260 @@ export const appRouter = router({
         });
         return { success: true, result };
       }),
+  }),
+
+  // ============ GRACE ACADEMY ROUTES ============
+  graceAcademy: router({
+    // Module routes
+    modules: router({
+      getAll: publicProcedure.query(async () => {
+        return getAllGraceModules();
+      }),
+      
+      getByTrack: publicProcedure
+        .input(z.object({ track: z.enum(['foundation', 'intermediate', 'advanced']) }))
+        .query(async ({ input }) => {
+          return getGraceModulesByTrack(input.track);
+        }),
+      
+      getByNumber: publicProcedure
+        .input(z.object({ moduleNumber: z.number() }))
+        .query(async ({ input }) => {
+          const module = await getGraceModuleByNumber(input.moduleNumber);
+          const questions = await getGraceQuizQuestions(input.moduleNumber);
+          const crucible = await getGraceCrucibleChallenge(input.moduleNumber);
+          return { module, questions, crucible };
+        }),
+      
+      create: protectedProcedure
+        .input(z.object({
+          moduleNumber: z.number(),
+          track: z.enum(['foundation', 'intermediate', 'advanced']),
+          title: z.string(),
+          subtitle: z.string().optional(),
+          sparkContent: z.string().optional(),
+          imprintContent: z.string().optional(),
+          visualAidUrl: z.string().optional(),
+          visualAidDescription: z.string().optional(),
+          estimatedMinutes: z.number().optional(),
+        }))
+        .mutation(async ({ ctx, input }) => {
+          if (ctx.user.role !== 'admin') throw new Error('Admin access required');
+          await createGraceModule(input);
+          return { success: true };
+        }),
+      
+      update: protectedProcedure
+        .input(z.object({
+          moduleNumber: z.number(),
+          data: z.object({
+            title: z.string().optional(),
+            subtitle: z.string().optional(),
+            sparkContent: z.string().optional(),
+            imprintContent: z.string().optional(),
+            visualAidUrl: z.string().optional(),
+            visualAidDescription: z.string().optional(),
+            estimatedMinutes: z.number().optional(),
+          }),
+        }))
+        .mutation(async ({ ctx, input }) => {
+          if (ctx.user.role !== 'admin') throw new Error('Admin access required');
+          await updateGraceModule(input.moduleNumber, input.data);
+          return { success: true };
+        }),
+    }),
+    
+    // Quiz routes
+    quiz: router({
+      getQuestions: publicProcedure
+        .input(z.object({ moduleId: z.number() }))
+        .query(async ({ input }) => {
+          const questions = await getGraceQuizQuestions(input.moduleId);
+          return questions.map(q => ({
+            ...q,
+            options: JSON.parse(q.options),
+          }));
+        }),
+      
+      submit: protectedProcedure
+        .input(z.object({
+          moduleId: z.number(),
+          answers: z.array(z.number()),
+          timeTaken: z.number().optional(),
+        }))
+        .mutation(async ({ ctx, input }) => {
+          const questions = await getGraceQuizQuestions(input.moduleId);
+          let score = 0;
+          const results = input.answers.map((answer, idx) => {
+            const correct = questions[idx]?.correctAnswer === answer;
+            if (correct) score++;
+            return { questionId: questions[idx]?.id, correct, correctAnswer: questions[idx]?.correctAnswer };
+          });
+          
+          await createGraceQuizAttempt({
+            userId: ctx.user.id,
+            moduleId: input.moduleId,
+            score,
+            answers: JSON.stringify(input.answers),
+            timeTaken: input.timeTaken,
+          });
+          
+          const certificatesAwarded = await checkAndAwardGraceCertificates(ctx.user.id);
+          
+          return {
+            score,
+            total: 5,
+            passed: score >= 3,
+            results,
+            certificatesAwarded,
+          };
+        }),
+      
+      createQuestion: protectedProcedure
+        .input(z.object({
+          moduleId: z.number(),
+          questionNumber: z.number(),
+          question: z.string(),
+          options: z.array(z.string()),
+          correctAnswer: z.number(),
+          explanation: z.string().optional(),
+        }))
+        .mutation(async ({ ctx, input }) => {
+          if (ctx.user.role !== 'admin') throw new Error('Admin access required');
+          await createGraceQuizQuestion({
+            ...input,
+            options: JSON.stringify(input.options),
+          });
+          return { success: true };
+        }),
+    }),
+    
+    // Crucible routes
+    crucible: router({
+      getChallenge: publicProcedure
+        .input(z.object({ moduleId: z.number() }))
+        .query(async ({ input }) => {
+          return getGraceCrucibleChallenge(input.moduleId);
+        }),
+      
+      submit: protectedProcedure
+        .input(z.object({
+          moduleId: z.number(),
+          submission: z.string().min(50),
+        }))
+        .mutation(async ({ ctx, input }) => {
+          await createGraceCrucibleSubmission({
+            userId: ctx.user.id,
+            moduleId: input.moduleId,
+            submission: input.submission,
+          });
+          
+          const certificatesAwarded = await checkAndAwardGraceCertificates(ctx.user.id);
+          return { success: true, certificatesAwarded };
+        }),
+      
+      getSubmissions: protectedProcedure.query(async ({ ctx }) => {
+        return getGraceCrucibleSubmissions(ctx.user.id);
+      }),
+      
+      getAllSubmissions: protectedProcedure.query(async ({ ctx }) => {
+        if (ctx.user.role !== 'admin') throw new Error('Admin access required');
+        return getAllGraceCrucibleSubmissions();
+      }),
+      
+      review: protectedProcedure
+        .input(z.object({
+          submissionId: z.number(),
+          status: z.enum(['pending', 'approved', 'needs_revision']),
+          feedback: z.string().optional(),
+        }))
+        .mutation(async ({ ctx, input }) => {
+          if (ctx.user.role !== 'admin') throw new Error('Admin access required');
+          await updateGraceCrucibleSubmission(input.submissionId, {
+            status: input.status,
+            adminFeedback: input.feedback,
+            reviewedBy: ctx.user.id,
+          });
+          return { success: true };
+        }),
+    }),
+    
+    // Progress routes
+    progress: router({
+      forModule: protectedProcedure
+        .input(z.object({ moduleId: z.number() }))
+        .query(async ({ ctx, input }) => {
+          return getGraceUserProgress(ctx.user.id, input.moduleId);
+        }),
+      
+      getAll: protectedProcedure.query(async ({ ctx }) => {
+        return getAllGraceUserProgress(ctx.user.id);
+      }),
+      
+      markComplete: protectedProcedure
+        .input(z.object({
+          moduleId: z.number(),
+          section: z.enum(['spark', 'gauntlet', 'crucible', 'imprint']),
+        }))
+        .mutation(async ({ ctx, input }) => {
+          await markGraceSectionComplete(ctx.user.id, input.moduleId, input.section);
+          const certificatesAwarded = await checkAndAwardGraceCertificates(ctx.user.id);
+          return { success: true, certificatesAwarded };
+        }),
+      
+      getDashboard: protectedProcedure.query(async ({ ctx }) => {
+        const progress = await getAllGraceUserProgress(ctx.user.id);
+        const certificates = await getGraceUserCertificates(ctx.user.id);
+        
+        const completedModules = progress.filter(p => p.moduleCompleted).length;
+        const foundationComplete = progress.filter(p => p.moduleCompleted && p.moduleId >= 1 && p.moduleId <= 10).length;
+        const intermediateComplete = progress.filter(p => p.moduleCompleted && p.moduleId >= 11 && p.moduleId <= 20).length;
+        const advancedComplete = progress.filter(p => p.moduleCompleted && p.moduleId >= 21 && p.moduleId <= 30).length;
+        
+        const avgScore = progress.length > 0 
+          ? progress.reduce((sum, p) => sum + (p.bestQuizScore || 0), 0) / progress.length 
+          : 0;
+        
+        return {
+          totalModules: 30,
+          completedModules,
+          foundationProgress: foundationComplete,
+          intermediateProgress: intermediateComplete,
+          advancedProgress: advancedComplete,
+          averageScore: Math.round(avgScore),
+          certificates,
+          progress,
+        };
+      }),
+    }),
+    
+    // Certificate routes
+    certificates: router({
+      getAll: protectedProcedure.query(async ({ ctx }) => {
+        return getGraceUserCertificates(ctx.user.id);
+      }),
+      
+      verify: publicProcedure
+        .input(z.object({ code: z.string() }))
+        .query(async ({ input }) => {
+          return verifyGraceCertificate(input.code);
+        }),
+    }),
+    
+    // Admin routes
+    admin: router({
+      getUsers: protectedProcedure.query(async ({ ctx }) => {
+        if (ctx.user.role !== 'admin') throw new Error('Admin access required');
+        return getAllGraceUsers();
+      }),
+      
+      getUserProgress: protectedProcedure
+        .input(z.object({ userId: z.number() }))
+        .query(async ({ ctx, input }) => {
+          if (ctx.user.role !== 'admin') throw new Error('Admin access required');
+          return getAllGraceUserProgress(input.userId);
+        }),
+    }),
   }),
 });
 

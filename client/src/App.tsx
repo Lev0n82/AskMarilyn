@@ -31,6 +31,10 @@ import TechnicalWritingGuide from "./pages/TechnicalWritingGuide";
 import LearningProgress from "./pages/LearningProgress";
 import CourseCertificate from "./pages/CourseCertificate";
 import CourseCatalog from "./pages/CourseCatalog";
+import GraceAcademyIndex from "./pages/grace-academy/index";
+import GraceModule from "./pages/grace-academy/GraceModule";
+import GraceDashboard from "./pages/grace-academy/GraceDashboard";
+import GraceAdmin from "./pages/grace-academy/GraceAdmin";
 import ScrollToTop from "./components/ScrollToTop";
 import BackToTop from "./components/BackToTop";
 function Router() {
@@ -63,6 +67,10 @@ function Router() {
       <Route path="/learning-progress" component={LearningProgress} />
       <Route path="/course-certificate" component={CourseCertificate} />
       <Route path="/courses" component={CourseCatalog} />
+      <Route path="/grace-academy" component={GraceAcademyIndex} />
+      <Route path="/grace-academy/dashboard" component={GraceDashboard} />
+      <Route path="/grace-academy/admin" component={GraceAdmin} />
+      <Route path="/grace-academy/module-:moduleNumber" component={GraceModule} />
       <Route path="/404" component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
