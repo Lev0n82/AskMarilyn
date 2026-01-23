@@ -6,6 +6,11 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { ProgressProvider } from "./contexts/ProgressContext";
 import Home from "./pages/Home";
+import SystemsArchitect from "./pages/SystemsArchitect";
+import DBA from "./pages/DBA";
+import DataScientist from "./pages/DataScientist";
+import HealthcareArchitect from "./pages/HealthcareArchitect";
+import SqlInjection from "./pages/SqlInjection";
 import Module1 from "./pages/Module1";
 import Module2 from "./pages/Module2";
 import Module3 from "./pages/Module3";
@@ -38,6 +43,11 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/systems-architect" component={SystemsArchitect} />
+      <Route path="/dba" component={DBA} />
+      <Route path="/data-scientist" component={DataScientist} />
+      <Route path="/healthcare-architect" component={HealthcareArchitect} />
+      <Route path="/sql-injection" component={SqlInjection} />
       <Route path="/module-1" component={Module1} />
       <Route path="/module-2" component={Module2} />
       <Route path="/module-3" component={Module3} />

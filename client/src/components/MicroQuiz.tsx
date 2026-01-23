@@ -3,6 +3,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, XCircle, HelpCircle, RefreshCw, Lightbulb, Baby, Users, TrendingUp, Clock, AlertCircle } from "lucide-react";
 import { trpc } from "@/lib/trpc";
+import { FeedbackOverlay } from "./FeedbackOverlay";
+import { SpecialGuest } from "./SpecialGuest";
 
 interface MicroQuizProps {
   courseId: string;
@@ -49,8 +51,17 @@ export function MicroQuiz({
   const [isCorrect, setIsCorrect] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showCommunityStats, setShowCommunityStats] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [triggerGuest, setTriggerGuest] = useState(false);
 
   const actualQuestionId = questionId || `${topicId}-q1`;
+
+  // Randomly trigger a special guest appearance (10% chance on load)
+  useEffect(() => {
+    if (Math.random() < 0.1) {
+      setTriggerGuest(true);
+    }
+  }, []);
 
   // Check if this question is due for review
   const isDueForReview = dueReviews?.some(
@@ -63,6 +74,7 @@ export function MicroQuiz({
     const correct = selectedAnswer === correctAnswer;
     setIsCorrect(correct);
     setIsSubmitted(true);
+    setShowFeedback(true); // Trigger the feedback overlay
 
     // Record the attempt using trpc
     if (user) {
@@ -118,8 +130,19 @@ export function MicroQuiz({
   const topicStats = communityStats?.[0];
 
   return (
-    <Card className={`my-8 border-2 ${isDueForReview ? 'border-amber-400 bg-amber-50/50' : 'border-primary/20 bg-gradient-to-br from-primary/5 to-transparent'}`}>
-      <CardContent className="pt-6">
+    <>
+      <FeedbackOverlay 
+        isVisible={showFeedback} 
+        isCorrect={isCorrect} 
+        correctAnswer={options[correctAnswer]}
+        onDismiss={() => setShowFeedback(false)} 
+      />
+      <SpecialGuest 
+        trigger={triggerGuest} 
+        onDismiss={() => setTriggerGuest(false)} 
+      />
+      <Card className={`my-8 border-2 ${isDueForReview ? 'border-amber-400 bg-amber-50/50' : 'border-primary/20 bg-gradient-to-br from-primary/5 to-transparent'}`}>
+        <CardContent className="pt-6">
         <div className="flex items-center gap-2 mb-4">
           <HelpCircle className="w-5 h-5 text-primary" />
           <h4 className="font-display text-lg font-bold">Quick Check</h4>
@@ -316,7 +339,8 @@ export function MicroQuiz({
             ✓ Progress saved to your learning record
           </p>
         )}
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </>
   );
 }
