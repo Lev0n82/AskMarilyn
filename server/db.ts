@@ -1,6 +1,6 @@
 import { eq, desc, and, sql, gte, lte } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, leaderboard, InsertLeaderboardEntry, badges, InsertBadge, forumPosts, InsertForumPost, forumReplies, InsertForumReply, userStreaks, InsertUserStreak, quizAttempts, InsertQuizAttempt, courseProgress, InsertCourseProgress, topicProgress, InsertTopicProgress, courseCertificates, InsertCourseCertificate, spacedRepetitionQueue, InsertSpacedRepetitionItem, communityStats, InsertCommunityStats } from "../drizzle/schema";
+import { InsertUser, users, leaderboard, InsertLeaderboardEntry, badges, InsertBadge, forumPosts, InsertForumPost, forumReplies, InsertForumReply, userStreaks, InsertUserStreak, quizAttempts, InsertQuizAttempt, courseProgress, InsertCourseProgress, topicProgress, InsertTopicProgress, courseCertificates, InsertCourseCertificate, spacedRepetitionQueue, InsertSpacedRepetitionItem, communityStats, InsertCommunityStats, graceModules, InsertGraceModule, graceQuizQuestions, InsertGraceQuizQuestion, graceCrucibleChallenges, InsertGraceCrucibleChallenge, graceUserProgress, InsertGraceUserProgress, graceQuizAttempts, InsertGraceQuizAttempt, graceCrucibleSubmissions, InsertGraceCrucibleSubmission, graceCertificates, InsertGraceCertificate } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -914,4 +914,325 @@ export async function getUserRankInCourse(userId: number, courseId: string) {
     userAccuracy: Math.round(userAccuracy),
     percentile,
   };
+}
+
+
+// ============ GRACE ACADEMY OPERATIONS ============
+
+import { nanoid } from 'nanoid';
+import { asc } from "drizzle-orm";
+
+// Module Operations
+export async function getAllGraceModules() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(graceModules).orderBy(asc(graceModules.moduleNumber));
+}
+
+export async function getGraceModulesByTrack(track: 'foundation' | 'intermediate' | 'advanced') {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(graceModules)
+    .where(eq(graceModules.track, track))
+    .orderBy(asc(graceModules.moduleNumber));
+}
+
+export async function getGraceModuleByNumber(moduleNumber: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(graceModules)
+    .where(eq(graceModules.moduleNumber, moduleNumber)).limit(1);
+  return result[0];
+}
+
+export async function createGraceModule(module: InsertGraceModule) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.insert(graceModules).values(module);
+}
+
+export async function updateGraceModule(moduleNumber: number, data: Partial<InsertGraceModule>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.update(graceModules).set(data).where(eq(graceModules.moduleNumber, moduleNumber));
+}
+
+// Quiz Operations
+export async function getGraceQuizQuestions(moduleId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(graceQuizQuestions)
+    .where(eq(graceQuizQuestions.moduleId, moduleId))
+    .orderBy(asc(graceQuizQuestions.questionNumber));
+}
+
+export async function createGraceQuizQuestion(question: InsertGraceQuizQuestion) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.insert(graceQuizQuestions).values(question);
+}
+
+// Crucible Operations
+export async function getGraceCrucibleChallenge(moduleId: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(graceCrucibleChallenges)
+    .where(eq(graceCrucibleChallenges.moduleId, moduleId)).limit(1);
+  return result[0];
+}
+
+export async function createGraceCrucibleChallenge(challenge: InsertGraceCrucibleChallenge) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.insert(graceCrucibleChallenges).values(challenge);
+}
+
+// User Progress Operations
+export async function getGraceUserProgress(userId: number, moduleId: number) {
+  const db = await getDb();
+  if (!db) {
+    return {
+      id: 0,
+      userId,
+      moduleId,
+      sparkCompleted: 0,
+      gauntletCompleted: 0,
+      crucibleCompleted: 0,
+      imprintCompleted: 0,
+      moduleCompleted: 0,
+      bestQuizScore: null,
+      completedAt: null,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+  }
+  const result = await db.select().from(graceUserProgress)
+    .where(and(eq(graceUserProgress.userId, userId), eq(graceUserProgress.moduleId, moduleId)))
+    .limit(1);
+  
+  if (!result[0]) {
+    return {
+      id: 0,
+      userId,
+      moduleId,
+      sparkCompleted: 0,
+      gauntletCompleted: 0,
+      crucibleCompleted: 0,
+      imprintCompleted: 0,
+      moduleCompleted: 0,
+      bestQuizScore: null,
+      completedAt: null,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+  }
+  return result[0];
+}
+
+export async function getAllGraceUserProgress(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(graceUserProgress).where(eq(graceUserProgress.userId, userId));
+}
+
+export async function markGraceSectionComplete(userId: number, moduleId: number, section: 'spark' | 'gauntlet' | 'crucible' | 'imprint') {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const existing = await getGraceUserProgress(userId, moduleId);
+  
+  const updateData: Partial<InsertGraceUserProgress> = {};
+  if (section === 'spark') updateData.sparkCompleted = 1;
+  if (section === 'gauntlet') updateData.gauntletCompleted = 1;
+  if (section === 'crucible') updateData.crucibleCompleted = 1;
+  if (section === 'imprint') updateData.imprintCompleted = 1;
+  
+  if (existing.id !== 0) {
+    const newProgress = { ...existing, ...updateData };
+    const isComplete = newProgress.sparkCompleted && newProgress.gauntletCompleted && 
+                      newProgress.crucibleCompleted && newProgress.imprintCompleted;
+    
+    await db.update(graceUserProgress)
+      .set({
+        ...updateData,
+        moduleCompleted: isComplete ? 1 : 0,
+        completedAt: isComplete && !existing.moduleCompleted ? new Date() : existing.completedAt
+      })
+      .where(eq(graceUserProgress.id, existing.id));
+  } else {
+    await db.insert(graceUserProgress).values({
+      userId,
+      moduleId,
+      sparkCompleted: section === 'spark' ? 1 : 0,
+      gauntletCompleted: section === 'gauntlet' ? 1 : 0,
+      crucibleCompleted: section === 'crucible' ? 1 : 0,
+      imprintCompleted: section === 'imprint' ? 1 : 0,
+    });
+  }
+}
+
+// Quiz Attempt Operations
+export async function createGraceQuizAttempt(attempt: InsertGraceQuizAttempt) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.insert(graceQuizAttempts).values(attempt);
+  
+  // Update best score in progress
+  const progress = await getGraceUserProgress(attempt.userId, attempt.moduleId);
+  const scorePercent = (attempt.score / 5) * 100;
+  
+  if (progress.id === 0 || scorePercent > (progress.bestQuizScore || 0)) {
+    if (progress.id !== 0) {
+      await db.update(graceUserProgress)
+        .set({
+          bestQuizScore: scorePercent,
+          gauntletCompleted: scorePercent >= 60 ? 1 : progress.gauntletCompleted
+        })
+        .where(eq(graceUserProgress.id, progress.id));
+    } else {
+      await db.insert(graceUserProgress).values({
+        userId: attempt.userId,
+        moduleId: attempt.moduleId,
+        bestQuizScore: scorePercent,
+        gauntletCompleted: scorePercent >= 60 ? 1 : 0
+      });
+    }
+  } else if (scorePercent >= 60 && !progress.gauntletCompleted) {
+    await markGraceSectionComplete(attempt.userId, attempt.moduleId, 'gauntlet');
+  }
+}
+
+// Crucible Submission Operations
+export async function createGraceCrucibleSubmission(submission: InsertGraceCrucibleSubmission) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.insert(graceCrucibleSubmissions).values(submission);
+  await markGraceSectionComplete(submission.userId, submission.moduleId, 'crucible');
+}
+
+export async function getGraceCrucibleSubmissions(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(graceCrucibleSubmissions)
+    .where(eq(graceCrucibleSubmissions.userId, userId))
+    .orderBy(desc(graceCrucibleSubmissions.submittedAt));
+}
+
+export async function getAllGraceCrucibleSubmissions() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(graceCrucibleSubmissions).orderBy(desc(graceCrucibleSubmissions.submittedAt));
+}
+
+export async function updateGraceCrucibleSubmission(id: number, data: { 
+  status: 'pending' | 'approved' | 'needs_revision', 
+  adminFeedback?: string,
+  reviewedBy: number 
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.update(graceCrucibleSubmissions)
+    .set({ ...data, reviewedAt: new Date() })
+    .where(eq(graceCrucibleSubmissions.id, id));
+}
+
+// Certificate Operations
+export async function getGraceUserCertificates(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(graceCertificates)
+    .where(eq(graceCertificates.userId, userId))
+    .orderBy(desc(graceCertificates.earnedAt));
+}
+
+export async function createGraceCertificate(data: Omit<InsertGraceCertificate, 'certificateCode'>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const certificateCode = `GRACE-${data.certificateType.toUpperCase()}-${nanoid(10)}`;
+  
+  await db.insert(graceCertificates).values({
+    ...data,
+    certificateCode
+  });
+  
+  return certificateCode;
+}
+
+export async function checkAndAwardGraceCertificates(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const progress = await getAllGraceUserProgress(userId);
+  const existingCerts = await getGraceUserCertificates(userId);
+  const existingTypes = existingCerts.map(c => c.certificateType);
+  
+  const awarded: string[] = [];
+  
+  // Check Foundation (modules 1-10)
+  const foundationComplete = progress.filter(p => 
+    p.moduleCompleted && p.moduleId >= 1 && p.moduleId <= 10
+  ).length === 10;
+  
+  if (foundationComplete && !existingTypes.includes('foundation')) {
+    const avgScore = progress
+      .filter(p => p.moduleId >= 1 && p.moduleId <= 10)
+      .reduce((sum, p) => sum + (p.bestQuizScore || 0), 0) / 10;
+    
+    await createGraceCertificate({ userId, certificateType: 'foundation', averageScore: Math.round(avgScore) });
+    awarded.push('foundation');
+  }
+  
+  // Check Intermediate (modules 11-20)
+  const intermediateComplete = progress.filter(p => 
+    p.moduleCompleted && p.moduleId >= 11 && p.moduleId <= 20
+  ).length === 10;
+  
+  if (intermediateComplete && !existingTypes.includes('intermediate')) {
+    const avgScore = progress
+      .filter(p => p.moduleId >= 11 && p.moduleId <= 20)
+      .reduce((sum, p) => sum + (p.bestQuizScore || 0), 0) / 10;
+    
+    await createGraceCertificate({ userId, certificateType: 'intermediate', averageScore: Math.round(avgScore) });
+    awarded.push('intermediate');
+  }
+  
+  // Check Advanced (modules 21-30)
+  const advancedComplete = progress.filter(p => 
+    p.moduleCompleted && p.moduleId >= 21 && p.moduleId <= 30
+  ).length === 10;
+  
+  if (advancedComplete && !existingTypes.includes('advanced')) {
+    const avgScore = progress
+      .filter(p => p.moduleId >= 21 && p.moduleId <= 30)
+      .reduce((sum, p) => sum + (p.bestQuizScore || 0), 0) / 10;
+    
+    await createGraceCertificate({ userId, certificateType: 'advanced', averageScore: Math.round(avgScore) });
+    awarded.push('advanced');
+  }
+  
+  // Check GRACE Diploma (all 30 modules)
+  if (foundationComplete && intermediateComplete && advancedComplete && !existingTypes.includes('grace_diploma')) {
+    const avgScore = progress.reduce((sum, p) => sum + (p.bestQuizScore || 0), 0) / 30;
+    
+    await createGraceCertificate({ userId, certificateType: 'grace_diploma', averageScore: Math.round(avgScore) });
+    awarded.push('grace_diploma');
+  }
+  
+  return awarded;
+}
+
+export async function verifyGraceCertificate(code: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(graceCertificates)
+    .where(eq(graceCertificates.certificateCode, code)).limit(1);
+  return result[0];
+}
+
+// Admin Operations
+export async function getAllGraceUsers() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(users).orderBy(desc(users.createdAt));
 }

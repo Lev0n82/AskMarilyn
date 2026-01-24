@@ -219,3 +219,115 @@ export const communityStats = mysqlTable("community_stats", {
 
 export type CommunityStats = typeof communityStats.$inferSelect;
 export type InsertCommunityStats = typeof communityStats.$inferInsert;
+
+
+// ============ GRACE ACADEMY TABLES ============
+
+// GRACE Academy modules table
+export const graceModules = mysqlTable("grace_modules", {
+  id: int("id").autoincrement().primaryKey(),
+  moduleNumber: int("moduleNumber").notNull().unique(),
+  track: mysqlEnum("track", ["foundation", "intermediate", "advanced"]).notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  subtitle: varchar("subtitle", { length: 500 }),
+  sparkContent: text("sparkContent"), // The Spark - 3 min reading
+  imprintContent: text("imprintContent"), // The Imprint - thought experiment
+  visualAidUrl: varchar("visualAidUrl", { length: 500 }),
+  visualAidDescription: text("visualAidDescription"),
+  estimatedMinutes: int("estimatedMinutes").default(15),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type GraceModule = typeof graceModules.$inferSelect;
+export type InsertGraceModule = typeof graceModules.$inferInsert;
+
+// GRACE Academy quiz questions (The Gauntlet)
+export const graceQuizQuestions = mysqlTable("grace_quiz_questions", {
+  id: int("id").autoincrement().primaryKey(),
+  moduleId: int("moduleId").notNull(),
+  questionNumber: int("questionNumber").notNull(),
+  question: text("question").notNull(),
+  options: text("options").notNull(), // JSON array of options
+  correctAnswer: int("correctAnswer").notNull(), // Index of correct option
+  explanation: text("explanation"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type GraceQuizQuestion = typeof graceQuizQuestions.$inferSelect;
+export type InsertGraceQuizQuestion = typeof graceQuizQuestions.$inferInsert;
+
+// GRACE Academy Crucible challenges
+export const graceCrucibleChallenges = mysqlTable("grace_crucible_challenges", {
+  id: int("id").autoincrement().primaryKey(),
+  moduleId: int("moduleId").notNull().unique(),
+  challengePrompt: text("challengePrompt").notNull(),
+  evaluationCriteria: text("evaluationCriteria"),
+  sampleResponse: text("sampleResponse"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type GraceCrucibleChallenge = typeof graceCrucibleChallenges.$inferSelect;
+export type InsertGraceCrucibleChallenge = typeof graceCrucibleChallenges.$inferInsert;
+
+// GRACE Academy user progress
+export const graceUserProgress = mysqlTable("grace_user_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  moduleId: int("moduleId").notNull(),
+  sparkCompleted: int("sparkCompleted").default(0).notNull(), // 0 = false, 1 = true
+  gauntletCompleted: int("gauntletCompleted").default(0).notNull(),
+  crucibleCompleted: int("crucibleCompleted").default(0).notNull(),
+  imprintCompleted: int("imprintCompleted").default(0).notNull(),
+  moduleCompleted: int("moduleCompleted").default(0).notNull(),
+  bestQuizScore: int("bestQuizScore"), // Percentage 0-100
+  completedAt: timestamp("completedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type GraceUserProgress = typeof graceUserProgress.$inferSelect;
+export type InsertGraceUserProgress = typeof graceUserProgress.$inferInsert;
+
+// GRACE Academy quiz attempts
+export const graceQuizAttempts = mysqlTable("grace_quiz_attempts", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  moduleId: int("moduleId").notNull(),
+  score: int("score").notNull(), // Out of 5
+  answers: text("answers").notNull(), // JSON array of selected answers
+  timeTaken: int("timeTaken"), // Seconds
+  attemptedAt: timestamp("attemptedAt").defaultNow().notNull(),
+});
+
+export type GraceQuizAttempt = typeof graceQuizAttempts.$inferSelect;
+export type InsertGraceQuizAttempt = typeof graceQuizAttempts.$inferInsert;
+
+// GRACE Academy Crucible submissions
+export const graceCrucibleSubmissions = mysqlTable("grace_crucible_submissions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  moduleId: int("moduleId").notNull(),
+  submission: text("submission").notNull(),
+  status: mysqlEnum("status", ["pending", "approved", "needs_revision"]).default("pending").notNull(),
+  adminFeedback: text("adminFeedback"),
+  reviewedBy: int("reviewedBy"),
+  reviewedAt: timestamp("reviewedAt"),
+  submittedAt: timestamp("submittedAt").defaultNow().notNull(),
+});
+
+export type GraceCrucibleSubmission = typeof graceCrucibleSubmissions.$inferSelect;
+export type InsertGraceCrucibleSubmission = typeof graceCrucibleSubmissions.$inferInsert;
+
+// GRACE Academy certificates
+export const graceCertificates = mysqlTable("grace_certificates", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  certificateType: mysqlEnum("certificateType", ["foundation", "intermediate", "advanced", "grace_diploma"]).notNull(),
+  certificateCode: varchar("certificateCode", { length: 64 }).notNull().unique(),
+  averageScore: int("averageScore"), // Percentage 0-100
+  earnedAt: timestamp("earnedAt").defaultNow().notNull(),
+});
+
+export type GraceCertificate = typeof graceCertificates.$inferSelect;
+export type InsertGraceCertificate = typeof graceCertificates.$inferInsert;
