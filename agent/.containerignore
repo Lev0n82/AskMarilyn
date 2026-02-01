@@ -1,0 +1,25 @@
+# Containerfile ignore patterns
+# Exclude build artifacts and temporary files
+
+# Build results
+**/bin/
+**/obj/
+**/publish/
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vs/
+.vscode/
+*.suo
+*.user
+
+# Documentation
+README.md
+*.md
+
+# Other
+.DS_Store
+*.log
