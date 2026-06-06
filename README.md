@@ -568,3 +568,216 @@ For questions or issues, please:
 ---
 
 *"Logic is the beginning of wisdom, not the end."* — Marilyn vos Savant
+
+---
+
+# CSC-GRACE — AI-Powered Autonomous Testing Platform
+
+**GRACE** (Generative Requirements and Conditions Engine) is the enterprise testing engine embedded within this platform. It automates the entire SDLC testing pipeline — from ADO work item intake through AI-generated test conditions, HITL review, PFAAM XLSX export, ADO Test Plan publishing, ADO Git commit, and regression execution via the **AUTONOMOUS.ML** desktop agent.
+
+> **Live portal:** [grace.learnsdlc.org](https://grace.learnsdlc.org)
+
+---
+
+## GRACE Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                        GRACE Portal (Cloud)                         │
+│  React 19 + Tailwind 4 + tRPC 11 + Express 4 + MySQL / TiDB        │
+│                                                                     │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────────────┐  │
+│  │  ADO Intake  │  │  HITL Queue  │  │  Test Library + Versions │  │
+│  │  Work Items  │  │  Review UI   │  │  /grace/suites → Library │  │
+│  └──────┬───────┘  └──────┬───────┘  └──────────────────────────┘  │
+│         │                 │                                         │
+│  ┌──────▼───────────────────────────────────────────────────────┐  │
+│  │           AI Pipeline (server/grace/)                        │  │
+│  │  atomic-decomposer → confidence-gate → duplicate-detector    │  │
+│  │  dag-scheduler → xls-generator → ado-test-plan-publisher     │  │
+│  │  ado-git-publisher → locator-parser → playwright-executor    │  │
+│  └──────────────────────────────────────────────────────────────┘  │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │ tRPC / polling (grace_xls_steps)
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│              AUTONOMOUS.ML MCP Agent (QA Workstation)               │
+│  Node.js + Playwright CDP — executes McpStepInstruction payloads    │
+│  Multi-locator chain → LLM failure analysis → HITL escalation       │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## GRACE Feature Summary
+
+| Feature | Status | Location |
+|---|---|---|
+| ADO Work Item intake | ✅ | `/grace/intake` |
+| AI test condition generation (DDD v5.1) | ✅ | `server/grace/atomic-decomposer.ts` |
+| Confidence gate + duplicate detection | ✅ | `server/grace/confidence-gate.ts` |
+| DAG execution scheduler | ✅ | `server/grace/dag-scheduler.ts` |
+| HITL review queue | ✅ | `/grace/hitl` |
+| PFAAM XLSX export | ✅ | `server/grace/xls-generator.ts` |
+| ADO Test Plan publish (one plan per release) | ✅ | `server/grace/ado-test-plan-publisher.ts` |
+| ADO Git commit (XLSX → `regression-tests/`) | ✅ | `server/grace/ado-git-publisher.ts` |
+| Test Library tab + version history | ✅ | `/grace/suites → Library tab` |
+| Suite versioning (re-run original / new version) | ✅ | `server/routers/grace-testsuite.ts` |
+| Multi-locator OBJECT column (pipe / newline) | ✅ | `server/grace/locator-parser.ts` |
+| Priority-ordered locator chain execution | ✅ | `server/grace/playwright-executor.ts` |
+| LLM failure analysis (all locators fail) | ✅ | `server/routers/grace-xls-runner.ts` |
+| Defect / locator-update / step-redesign HITL | ✅ | `analyzeLocatorFailure` procedure |
+| AUTONOMOUS.ML MCP Agent (QA workstation) | ✅ | `agent/` |
+
+---
+
+## GRACE Quick Start — Single-Click Install
+
+### Linux / macOS
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Lev0n82/AskMarilyn/feature/autonomous-agent/scripts/install.sh | bash
+```
+
+Or clone and run:
+
+```bash
+git clone https://github.com/Lev0n82/AskMarilyn.git
+cd AskMarilyn
+bash scripts/install.sh
+```
+
+### Windows (PowerShell — run as Administrator)
+
+```powershell
+irm https://raw.githubusercontent.com/Lev0n82/AskMarilyn/feature/autonomous-agent/scripts/install.ps1 | iex
+```
+
+Or clone and run:
+
+```powershell
+git clone https://github.com/Lev0n82/AskMarilyn.git
+cd AskMarilyn
+.\scripts\install.ps1
+```
+
+The installer checks prerequisites, installs dependencies, copies `.env.template` → `.env`, prompts for required values, runs `pnpm db:push`, and starts the dev server.
+
+### AUTONOMOUS.ML Desktop Agent
+
+```powershell
+# Windows — installs as a Windows Service
+cd agent
+.\deploy-windows.ps1 -Action Install
+```
+
+```bash
+# Linux / macOS
+cd agent
+bash deploy-unix.sh install
+```
+
+---
+
+## GRACE Environment Variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `DATABASE_URL` | ✅ | MySQL / TiDB connection string |
+| `JWT_SECRET` | ✅ | Session cookie signing secret (min 32 chars) |
+| `VITE_APP_ID` | ✅ | Manus OAuth application ID |
+| `OAUTH_SERVER_URL` | ✅ | Manus OAuth backend base URL |
+| `VITE_OAUTH_PORTAL_URL` | ✅ | Manus login portal URL |
+| `BUILT_IN_FORGE_API_URL` | ✅ | Manus built-in API base URL |
+| `BUILT_IN_FORGE_API_KEY` | ✅ | Manus built-in API bearer token (server-side) |
+| `VITE_FRONTEND_FORGE_API_KEY` | ✅ | Manus built-in API bearer token (frontend) |
+| `ADO` | ✅ | Azure DevOps Personal Access Token |
+| `GRACE_LLM_PROVIDER` | optional | `manus` · `azure_openai` · `ollama` · `custom` |
+| `GRACE_OLLAMA_ENDPOINT` | optional | Ollama base URL (default: `http://localhost:11434`) |
+| `GRACE_AZURE_OPENAI_ENDPOINT` | optional | Azure OpenAI endpoint URL |
+| `GRACE_AZURE_OPENAI_DEPLOYMENT` | optional | Azure OpenAI deployment name |
+| `GRACE_CDP_ENDPOINT` | optional | Chrome DevTools Protocol WebSocket URL |
+| `GRACE_STEP_TIMEOUT_MS` | optional | Per-step timeout ms (default: `30000`) |
+| `GRACE_TESTCASE_TIMEOUT_MS` | optional | Per-test-case timeout ms (default: `300000`) |
+| `GRACE_TESTABILITY_THRESHOLD` | optional | Min testability score 0–1 (default: `0.65`) |
+| `GRACE_CONFIDENCE_THRESHOLD` | optional | Min LLM confidence 0–1 (default: `0.70`) |
+
+LLM provider settings can also be configured at runtime via **Settings → GRACE Settings** in the portal UI.
+
+---
+
+## Multi-Locator Strategy
+
+The OBJECT column in a PFAAM step accepts multiple locators in a single cell, separated by pipe (`|`) or newline (Excel Alt+Enter). The framework tries each locator left-to-right, stopping at the first that resolves.
+
+```
+[data-testid="submit-btn"] | #submit-button | //button[contains(text(),'Submit')]
+```
+
+| Priority | Strategy | Example |
+|---|---|---|
+| 1 | `data-testid` | `[data-testid="submit-btn"]` |
+| 2 | ARIA role | `role=button[name="Submit"]` |
+| 3 | HTML ID | `#meaningful-id` |
+| 4 | `name` attribute | `[name="fieldName"]` |
+| 5 | `aria-label` | `[aria-label="Submit"]` |
+| 6 | Placeholder | `[placeholder="Email address"]` |
+| 7 | CSS class | `.btn-submit` |
+| 8 | Visible text | `text=Submit Application` |
+| 9 | Relative XPath | `//button[contains(@class,'submit')]` |
+| 10 | Absolute XPath ⚠️ | `/html/body/div[2]/button` — flagged as warning |
+
+When GRACE generates ABT steps from conditions, the LLM is instructed to provide **at least two locators per UI interaction step** in this priority order.
+
+---
+
+## LLM Failure Analysis Pipeline
+
+When the AUTONOMOUS.ML agent exhausts all locators in a step's chain, it calls `trpc.graceXls.analyzeLocatorFailure`. The server:
+
+1. Sends a structured prompt to the LLM with step context, all tried locators + error messages, page URL, and optional screenshot.
+2. The LLM returns a structured JSON decision:
+   - **`locator_update`** — DOM changed; suggests 2–3 replacement locators in priority order.
+   - **`step_redesign`** — UI flow changed; describes the required step modification.
+   - **`defect`** — Element should exist per requirements; logs a defect title and description.
+3. A HITL item is **always created** regardless of LLM confidence (priority 1 for defects).
+4. The step is marked `failed` with a reference to the HITL item.
+5. An audit log entry is written with the full locator chain and LLM decision.
+
+---
+
+## ADO Post-Approval Pipeline
+
+When a HITL reviewer approves a test suite, the following pipeline runs automatically:
+
+1. **XLSX generation** — PFAAM-compliant workbook uploaded to S3.
+2. **ADO Test Plan publish** — One Test Plan per release; one Test Suite per GRACE suite. IDs stored on the suite row.
+3. **ADO Git commit** — XLSX committed to `regression-tests/<release-name>.xlsx` on `main`. Commit SHA stored on the suite row.
+4. **Library status** — Suite marked `libraryStatus = "library"`, visible in the Library tab.
+
+---
+
+## Test Library & Versioning
+
+The **Library tab** at `/grace/suites` shows all approved suites with ADO and Git status badges.
+
+| Scenario | Action |
+|---|---|
+| No changes needed | Re-exports the original XLSX immediately (no new HITL cycle) |
+| Changes required | Creates a new version (v+1), copies all conditions, queues HITL review |
+
+---
+
+## GRACE CHANGELOG
+
+### v1.2 — 2026-06-05
+- **Fix:** `/grace/suite/:id` 404 — route now redirects to `/grace/suites?suiteId=:id`.
+- **Feature:** Post-approval pipeline — XLSX generation, ADO Test Plan publish, ADO Git commit, library status update.
+- **Feature:** Test Library tab with version history, ADO/Git badges, and re-run dialog.
+- **Feature:** Suite versioning — re-run original or create new version (v+1).
+
+### v1.1
+- Multi-locator OBJECT column (pipe/newline delimited, auto-detected strategy).
+- LLM failure analysis pipeline with `locator_update` / `step_redesign` / `defect` decisions.
+- AUTONOMOUS.ML MCP Agent with multi-level self-testing on startup.
+- GRACE Academy learning portal with diploma program.
