@@ -21,15 +21,115 @@ import {
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Users } from "lucide-react";
+import {
+  LayoutDashboard,
+  LogOut,
+  PanelLeft,
+  AlertTriangle,
+  FileText,
+  Bot,
+  FlaskConical,
+  FileSpreadsheet,
+  ShieldCheck,
+  PackageOpen,
+  Activity,
+  Info,
+  Settings2,
+  Monitor,
+  HelpCircle,
+  ClipboardList,
+  BookOpen,
+  Inbox,
+} from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { Button } from "./ui/button";
+import { useFeatureFlags } from "@/contexts/FeatureFlagsContext";
+import type { GraceFeatureKey } from "@/contexts/FeatureFlagsContext";
 
-const menuItems = [
-  { icon: LayoutDashboard, label: "Page 1", path: "/" },
-  { icon: Users, label: "Page 2", path: "/some-path" },
+// ─── Navigation structure ────────────────────────────────────────────────────
+// Groups are rendered top-to-bottom in workflow order.
+// Items with featureKey are hidden when the feature flag is disabled.
+
+type NavItem = {
+  icon: React.ElementType;
+  label: string;
+  path: string;
+  featureKey?: GraceFeatureKey;
+};
+
+type NavGroup = {
+  /** Section heading shown in expanded sidebar. Empty string = no heading (top-level). */
+  heading: string;
+  items: NavItem[];
+};
+
+const NAV_GROUPS: NavGroup[] = [
+  // ── Top-level ──────────────────────────────────────────────
+  {
+    heading: "",
+    items: [
+      { icon: LayoutDashboard, label: "Home", path: "/" },
+      { icon: LayoutDashboard, label: "GRACE Dashboard", path: "/grace/dashboard" },
+    ],
+  },
+
+  // ── 1. Intake ─────────────────────────────────────────────
+  // Capture requirements, derive tests, review & approve
+  {
+    heading: "Intake",
+    items: [
+      { icon: PackageOpen,    label: "Release Intake",    path: "/grace/release",      featureKey: "grace_release_intake" },
+      { icon: BookOpen,       label: "Work Items",        path: "/grace/workitems",    featureKey: "grace_workitems" },
+      { icon: FlaskConical,   label: "ABT Workbench",     path: "/grace/abt",          featureKey: "grace_abt_workbench" },
+      { icon: Bot,            label: "KISS Agent",        path: "/grace/kiss",         featureKey: "grace_kiss_agent" },
+    ],
+  },
+
+  // ── 2. Review & Approval ──────────────────────────────────
+  {
+    heading: "Review & Approval",
+    items: [
+      { icon: FileText,       label: "Test Suites",       path: "/grace/suites",       featureKey: "grace_test_suites" },
+      { icon: AlertTriangle,  label: "HITL Queue",        path: "/grace/hitl",         featureKey: "grace_hitl" },
+    ],
+  },
+
+  // ── 3. Execution ──────────────────────────────────────────
+  {
+    heading: "Execution",
+    items: [
+      { icon: FileSpreadsheet, label: "XLSX Runner",      path: "/grace/xls",          featureKey: "grace_xls_runner" },
+      { icon: Monitor,         label: "Desktop Agent",    path: "/grace/desktop-agent", featureKey: "grace_desktop_agent" },
+    ],
+  },
+
+  // ── 4. Configuration ──────────────────────────────────────
+  {
+    heading: "Configuration",
+    items: [
+      { icon: ShieldCheck,    label: "Credentials",       path: "/grace/credentials",  featureKey: "grace_credentials" },
+      { icon: Settings2,      label: "Settings",          path: "/grace/settings" },
+    ],
+  },
+
+  // ── 5. Observability ──────────────────────────────────────
+  {
+    heading: "Observability",
+    items: [
+      { icon: Activity,       label: "Audit Log",         path: "/grace/audit",        featureKey: "grace_audit_log" },
+      { icon: Info,           label: "Accessibility",     path: "/grace/accessibility", featureKey: "grace_accessibility" },
+    ],
+  },
+
+  // ── 6. Support ────────────────────────────────────────────
+  {
+    heading: "Support",
+    items: [
+      { icon: HelpCircle,     label: "Help Centre",       path: "/grace/help" },
+    ],
+  },
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";
@@ -53,7 +153,7 @@ export default function DashboardLayout({
   }, [sidebarWidth]);
 
   if (loading) {
-    return <DashboardLayoutSkeleton />
+    return <DashboardLayoutSkeleton />;
   }
 
   if (!user) {
@@ -112,8 +212,14 @@ function DashboardLayoutContent({
   const isCollapsed = state === "collapsed";
   const [isResizing, setIsResizing] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const activeMenuItem = menuItems.find(item => item.path === location);
+  const { isEnabled } = useFeatureFlags();
   const isMobile = useIsMobile();
+
+  // Build flat list of visible items for mobile header label
+  const allVisibleItems = NAV_GROUPS.flatMap(g =>
+    g.items.filter(item => !item.featureKey || isEnabled(item.featureKey))
+  );
+  const activeMenuItem = allVisibleItems.find(item => item.path === location);
 
   useEffect(() => {
     if (isCollapsed) {
@@ -124,25 +230,19 @@ function DashboardLayoutContent({
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!isResizing) return;
-
       const sidebarLeft = sidebarRef.current?.getBoundingClientRect().left ?? 0;
       const newWidth = e.clientX - sidebarLeft;
       if (newWidth >= MIN_WIDTH && newWidth <= MAX_WIDTH) {
         setSidebarWidth(newWidth);
       }
     };
-
-    const handleMouseUp = () => {
-      setIsResizing(false);
-    };
-
+    const handleMouseUp = () => setIsResizing(false);
     if (isResizing) {
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
       document.body.style.cursor = "col-resize";
       document.body.style.userSelect = "none";
     }
-
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
@@ -168,37 +268,60 @@ function DashboardLayoutContent({
               >
                 <PanelLeft className="h-4 w-4 text-muted-foreground" />
               </button>
-              {!isCollapsed ? (
+              {!isCollapsed && (
                 <div className="flex items-center gap-2 min-w-0">
                   <span className="font-semibold tracking-tight truncate">
                     Navigation
                   </span>
                 </div>
-              ) : null}
+              )}
             </div>
           </SidebarHeader>
 
-          <SidebarContent className="gap-0">
-            <SidebarMenu className="px-2 py-1">
-              {menuItems.map(item => {
-                const isActive = location === item.path;
+          <SidebarContent className="gap-0 overflow-y-auto">
+            <nav aria-label="Main navigation">
+              {NAV_GROUPS.map((group, groupIdx) => {
+                const visibleItems = group.items.filter(
+                  item => !item.featureKey || isEnabled(item.featureKey)
+                );
+                if (visibleItems.length === 0) return null;
+
                 return (
-                  <SidebarMenuItem key={item.path}>
-                    <SidebarMenuButton
-                      isActive={isActive}
-                      onClick={() => setLocation(item.path)}
-                      tooltip={item.label}
-                      className={`h-10 transition-all font-normal`}
-                    >
-                      <item.icon
-                        className={`h-4 w-4 ${isActive ? "text-primary" : ""}`}
-                      />
-                      <span>{item.label}</span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
+                  <div key={groupIdx} className="mb-1">
+                    {/* Section heading — only shown when sidebar is expanded */}
+                    {group.heading && !isCollapsed && (
+                      <p className="px-4 pt-3 pb-1 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground/60 select-none">
+                        {group.heading}
+                      </p>
+                    )}
+                    {/* Divider between groups when collapsed */}
+                    {group.heading && isCollapsed && groupIdx > 0 && (
+                      <div className="mx-3 my-1 border-t border-border/40" />
+                    )}
+                    <SidebarMenu className="px-2 py-0.5">
+                      {visibleItems.map(item => {
+                        const isActive = location === item.path;
+                        return (
+                          <SidebarMenuItem key={item.path}>
+                            <SidebarMenuButton
+                              isActive={isActive}
+                              onClick={() => setLocation(item.path)}
+                              tooltip={item.label}
+                              className="h-9 transition-all font-normal"
+                            >
+                              <item.icon
+                                className={`h-4 w-4 ${isActive ? "text-primary" : ""}`}
+                              />
+                              <span>{item.label}</span>
+                            </SidebarMenuButton>
+                          </SidebarMenuItem>
+                        );
+                      })}
+                    </SidebarMenu>
+                  </div>
                 );
               })}
-            </SidebarMenu>
+            </nav>
           </SidebarContent>
 
           <SidebarFooter className="p-3">
@@ -232,6 +355,8 @@ function DashboardLayoutContent({
             </DropdownMenu>
           </SidebarFooter>
         </Sidebar>
+
+        {/* Resize handle */}
         <div
           className={`absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-primary/20 transition-colors ${isCollapsed ? "hidden" : ""}`}
           onMouseDown={() => {
@@ -257,7 +382,9 @@ function DashboardLayoutContent({
             </div>
           </div>
         )}
-        <main className="flex-1 p-4">{children}</main>
+        <main id="main-content" className="flex-1 p-4" tabIndex={-1}>
+          {children}
+        </main>
       </SidebarInset>
     </>
   );
