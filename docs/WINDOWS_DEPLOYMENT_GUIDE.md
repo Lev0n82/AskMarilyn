@@ -24,7 +24,7 @@ Before you begin, ensure your Windows 11 machine meets the following requirement
 
 -   **Windows 11 Pro/Enterprise** (for full feature support)
 -   **Administrator Privileges** (required for Windows Service installation and system reboot functionality)
--   **.NET 8.0 SDK:** [Download and install from Microsoft](https://dotnet.microsoft.com/download/dotnet/8.0)
+-   **.NET 10.0 SDK:** [Download and install from Microsoft](https://dotnet.microsoft.com/download/dotnet/10.0)
 -   **Git:** [Download and install from git-scm.com](https://git-scm.com/download/win)
 -   **(Optional) Podman:** [Download and install Podman Desktop](https://podman-desktop.io/downloads) for containerized deployment.
 

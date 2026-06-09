@@ -2014,7 +2014,7 @@ This section provides detailed specifications for implementing the autonomous ag
 ### 12.1 Technology Stack
 
 **Core Components:**
-- **Language:** C# 12 (.NET 8)
+- **Language:** C# 14 (.NET 10)
 - **LLM Engine:** llama.cpp (via LLamaSharp)
 - **Vector Database:** ChromaDB (via HTTP API)
 - **Web Framework:** ASP.NET Core (for web dashboard)
@@ -2377,7 +2377,7 @@ The agent is deployed as a standalone Windows application on each enterprise des
 │  ┌──────────────────────────────────────────────────────┐│
 │  │         Autonomous Agent Application                  ││
 │  │  ┌────────────────────────────────────────────────┐  ││
-│  │  │  Agent Core (.NET 8 Runtime)                    │  ││
+│  │  │  Agent Core (.NET 10 Runtime)                    │  ││
 │  │  │  - Cognitive Core                               │  ││
 │  │  │  - Orchestration Layer                          │  ││
 │  │  │  - Tooling Layer                                │  ││
@@ -2408,7 +2408,7 @@ The agent is deployed as a standalone Windows application on each enterprise des
 The agent is distributed as a self-contained installation package:
 
 **Package Contents:**
-- Agent application binaries (.NET 8 self-contained)
+- Agent application binaries (.NET 10 self-contained)
 - llama.cpp binaries (Windows x64)
 - Pre-quantized SLM models (GGUF format)
 - ChromaDB embedded database

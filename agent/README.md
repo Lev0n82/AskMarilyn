@@ -131,7 +131,7 @@ agent_src/
 
 ## Requirements
 
-- .NET 8.0 SDK or later
+- .NET 10.0 SDK or later
 - Windows 10/11 (for Windows Service deployment)
 - Administrator privileges (for system reboot functionality)
 

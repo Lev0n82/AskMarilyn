@@ -1,5 +1,5 @@
 # Autonomous Agent - Podman Containerfile
-# Based on Microsoft's official .NET 8.0 runtime image
+# Based on Microsoft's official .NET 10.0 runtime image
 
 # Stage 1: Build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build

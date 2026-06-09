@@ -405,7 +405,7 @@ This section provides detailed specifications for building each component of the
 
 ### 8.2 Execution Minion Implementation
 
--   **Technology Stack:** .NET 8 Worker Service. This provides a robust framework for running background tasks on Windows.
+-   **Technology Stack:** .NET 10 Worker Service. This provides a robust framework for running background tasks on Windows.
 -   **Installation:** The minion should be packaged as a Windows Service installer (e.g., using WiX Toolset) for easy deployment on host PCs.
 -   **Configuration:** A local `appsettings.json` file will configure the Hub URL, minion ID, and other parameters.
 -   **Process Management:** The minion will use `System.Diagnostics.Process` to launch and manage the FFmpeg and test executor processes.
