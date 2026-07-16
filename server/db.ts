@@ -1,11 +1,10 @@
-import { eq } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, widgets, documents, documentChunks, conversations, messages, tenants } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
 
-// Lazily create the drizzle instance so local tooling can run without a DB.
 export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
@@ -17,6 +16,8 @@ export async function getDb() {
   }
   return _db;
 }
+
+// ─── User Queries ────────────────────────────────────────────────────────────
 
 export async function upsertUser(user: InsertUser): Promise<void> {
   if (!user.openId) {
@@ -30,9 +31,7 @@ export async function upsertUser(user: InsertUser): Promise<void> {
   }
 
   try {
-    const values: InsertUser = {
-      openId: user.openId,
-    };
+    const values: InsertUser = { openId: user.openId };
     const updateSet: Record<string, unknown> = {};
 
     const textFields = ["name", "email", "loginMethod"] as const;
@@ -79,14 +78,73 @@ export async function upsertUser(user: InsertUser): Promise<void> {
 
 export async function getUserByOpenId(openId: string) {
   const db = await getDb();
-  if (!db) {
-    console.warn("[Database] Cannot get user: database not available");
-    return undefined;
-  }
-
+  if (!db) return undefined;
   const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
-
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+export async function getUserById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(users).where(eq(users.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getUserByEmail(email: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(users).where(eq(users.email, email)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+// ─── Widget Queries ──────────────────────────────────────────────────────────
+
+export async function getWidgetsByUserId(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(widgets).where(eq(widgets.userId, userId)).orderBy(desc(widgets.createdAt));
+}
+
+export async function getWidgetById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(widgets).where(eq(widgets.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+// ─── Document Queries ────────────────────────────────────────────────────────
+
+export async function getDocumentsByWidgetId(widgetId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(documents).where(eq(documents.widgetId, widgetId)).orderBy(desc(documents.createdAt));
+}
+
+export async function getChunksByWidgetId(widgetId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(documentChunks).where(eq(documentChunks.widgetId, widgetId));
+}
+
+// ─── Conversation Queries ────────────────────────────────────────────────────
+
+export async function getConversationsByWidgetId(widgetId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(conversations).where(eq(conversations.widgetId, widgetId)).orderBy(desc(conversations.createdAt));
+}
+
+export async function getMessagesByConversationId(conversationId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(messages).where(eq(messages.conversationId, conversationId));
+}
+
+// ─── Tenant Queries ──────────────────────────────────────────────────────────
+
+export async function getTenantByOwnerId(ownerId: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(tenants).where(eq(tenants.ownerId, ownerId)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
