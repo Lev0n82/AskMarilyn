@@ -14,6 +14,7 @@ import {
   Accessibility,
 } from "lucide-react";
 import AccessibilityOverlay from "@/components/AccessibilityOverlay";
+import { VoiceAssistantEye } from "@/components/VoiceAssistantEye";
 
 interface WidgetConfig {
   id: number;
@@ -25,6 +26,14 @@ interface WidgetConfig {
   phoneNumber?: string;
   emailAddress?: string;
   accessibilityEnabled?: boolean;
+  voiceEnabled?: boolean;
+  voiceActivationMode?: string;
+  voiceIdleOpacity?: number;
+  voiceActiveOpacity?: number;
+  voiceScope?: string;
+  voiceLanguageMode?: string;
+  voiceLanguages?: string[];
+  voicePosition?: string;
 }
 
 interface ChatMessage {
@@ -106,9 +115,47 @@ export default function WidgetEmbed() {
   const themeClasses = getThemeClasses(config.theme);
   const showAccessibility = config.accessibilityEnabled !== false;
 
+  const handleVoiceMessage = async (text: string): Promise<string> => {
+    try {
+      const convId = await startConversation();
+      const res = await fetch("/api/widget/conversation/message", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ conversationId: convId, widgetId, content: text }),
+      });
+      const data = await res.json();
+      setMessages(prev => [...prev, { role: "user", content: text }, { role: "assistant", content: data.response }]);
+      if (data.showContactBar) setShowContactBar(true);
+      return data.response;
+    } catch {
+      return "Sorry, I couldn't process that. Please try again.";
+    }
+  };
+
+  const handleAccessibilityCommand = (command: string) => {
+    // Dispatch custom event that the AccessibilityOverlay listens to
+    window.dispatchEvent(new CustomEvent("hansen-accessibility-command", { detail: { command } }));
+  };
+
   return (
     <>
     {showAccessibility && <AccessibilityOverlay />}
+    {config.voiceEnabled && (
+      <VoiceAssistantEye
+        config={{
+          enabled: true,
+          activationMode: (config.voiceActivationMode as any) || "always_visible",
+          idleOpacity: config.voiceIdleOpacity || 20,
+          activeOpacity: config.voiceActiveOpacity || 90,
+          scope: (config.voiceScope as any) || "both",
+          languageMode: (config.voiceLanguageMode as any) || "auto_detect",
+          languages: config.voiceLanguages || ["en", "fr", "es", "de"],
+          position: (config.voicePosition as any) || "bottom_left",
+          onMessage: handleVoiceMessage,
+          onAccessibilityCommand: handleAccessibilityCommand,
+        }}
+      />
+    )}
     <div className="fixed bottom-4 right-4 z-[99999] font-sans">
       {/* State 1: Pill */}
       {state === "pill" && (

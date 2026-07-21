@@ -2,7 +2,7 @@ import { Router } from "express";
 import { getDb } from "./db";
 import { widgets, messages, documentChunks, conversations } from "../drizzle/schema";
 import { eq, desc } from "drizzle-orm";
-import axios from "axios";
+import { chatCompletion, type AIProviderConfig, type ChatMessage } from "./aiProvider";
 
 export function createWidgetApiRouter() {
   const router = Router();
@@ -25,6 +25,15 @@ export function createWidgetApiRouter() {
         phoneNumber: w.phoneNumber,
         emailAddress: w.emailAddress,
         accessibilityEnabled: w.accessibilityEnabled,
+        // Voice assistant config (public-facing settings only, no keys)
+        voiceEnabled: w.voiceEnabled,
+        voiceActivationMode: w.voiceActivationMode,
+        voiceIdleOpacity: w.voiceIdleOpacity,
+        voiceActiveOpacity: w.voiceActiveOpacity,
+        voiceScope: w.voiceScope,
+        voiceLanguageMode: w.voiceLanguageMode,
+        voiceLanguages: w.voiceLanguages,
+        voicePosition: w.voicePosition,
       });
     } catch (err) {
       res.status(500).json({ error: "Internal error" });
@@ -48,7 +57,7 @@ export function createWidgetApiRouter() {
     }
   });
 
-  // Send message and get AI response (public)
+  // Send message and get AI response (public) — uses unified AI provider
   router.post("/api/widget/conversation/message", async (req, res) => {
     try {
       const db = await getDb();
@@ -86,30 +95,35 @@ export function createWidgetApiRouter() {
 
       // Get conversation history
       const history = await db.select().from(messages).where(eq(messages.conversationId, conversationId));
-      const ollamaMessages = [
+      const chatMessages: ChatMessage[] = [
         { role: "system", content: fullSystemPrompt },
-        ...history.map((m: any) => ({ role: m.role, content: m.content })),
+        ...history.map((m: any) => ({ role: m.role as "user" | "assistant", content: m.content })),
       ];
 
-      // Call Ollama
+      // Build AI provider config from widget settings
+      const providerConfig: AIProviderConfig = {
+        provider: (w.aiProvider as any) || "manus",
+        apiBaseUrl: w.aiApiBaseUrl,
+        apiKey: w.aiApiKey,
+        model: w.aiModel,
+        ollamaEndpoint: w.ollamaEndpoint,
+        ollamaModel: w.ollamaModel,
+      };
+
+      // Call the unified AI provider
       let aiResponse = "I'm sorry, I couldn't process your request. Please try again.";
       let showContactBar = false;
       try {
-        const ollamaEndpoint = w.ollamaEndpoint || "http://localhost:11434";
-        const model = w.ollamaModel || "llama3.2";
-        const response = await axios.post(`${ollamaEndpoint}/api/chat`, {
-          model,
-          messages: ollamaMessages,
-          stream: false,
-        }, { timeout: 60000 });
-        aiResponse = response.data?.message?.content || aiResponse;
+        const result = await chatCompletion(providerConfig, chatMessages);
+        aiResponse = result.content;
+
         if (aiResponse.includes("[QUALIFIED_FOR_HUMAN_HELP]")) {
           showContactBar = true;
           aiResponse = aiResponse.replace("[QUALIFIED_FOR_HUMAN_HELP]", "").trim();
           await db.update(conversations).set({ status: "qualified" }).where(eq(conversations.id, conversationId));
         }
       } catch (error: any) {
-        console.error("[Ollama] Error:", error?.message);
+        console.error("[AI Provider] Error:", error?.message);
         aiResponse = "I'm currently unable to connect to the AI service. Please try again later or contact support.";
       }
 

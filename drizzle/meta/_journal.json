@@ -15,6 +15,13 @@
       "when": 1784222487202,
       "tag": "0001_colorful_wildside",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1784604060112,
+      "tag": "0002_chief_magneto",
+      "breakpoints": true
     }
   ]
 }

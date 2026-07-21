@@ -38,3 +38,25 @@
 - [x] Vitest unit tests for widget router (6 tests passing)
 - [x] End-to-end flow verification (manual via dev server preview)
 - [x] Final checkpoint and delivery
+
+## Phase 7: AI Provider Flexibility
+- [x] Implement multi-provider AI service (Manus LLM, Ollama, vLLM, OpenAI-compatible)
+- [x] Wire demo to use Manus built-in LLM for chat responses
+- [x] Support configurable provider selection per widget (Manus, Ollama, vLLM, Custom OpenAI)
+- [x] Support custom endpoint URL for any OpenAI-format API
+- [x] Support optional API key for authenticated providers
+- [x] Update widget config UI with provider dropdown and connection test
+- [x] Fallback logic: if configured provider fails, show graceful error
+
+## Phase 8: Voice Assistant Eye Overlay
+- [x] Configurable voice assistant eye overlay (semi-transparent, ambient AI presence)
+- [x] Admin-configurable activation mode (auto with overlay, separate toggle, always visible)
+- [x] Admin-configurable opacity/prominence (idle 10-50%, active opacity, size, position)
+- [x] Admin-configurable scope (accessibility-only, full AI chat, or both)
+- [x] Admin-configurable language (auto-detect, pre-selected list, user-chosen)
+- [x] Speech recognition (Web Speech API) with multi-language support
+- [x] Text-to-speech response in user's language of choice
+- [x] Visual eye animation states (idle pulse, listening, speaking, thinking)
+- [x] Integration with RAG knowledge base for intelligent responses
+- [x] Integration with accessibility commands (font size, contrast, navigation)
+- [x] Admin configuration panel in dashboard for all voice assistant settings

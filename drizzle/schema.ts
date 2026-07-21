@@ -44,10 +44,24 @@ export const widgets = mysqlTable("widgets", {
   theme: mysqlEnum("theme", ["Liquid Glass", "Warm Neutral", "Aurora Soft"]).default("Warm Neutral").notNull(),
   greeting: text("greeting"),
   suggestionChips: json("suggestionChips").$type<string[]>(),
-  // Ollama configuration
+  // AI Provider configuration
+  aiProvider: mysqlEnum("aiProvider", ["manus", "ollama", "vllm", "openai_compatible"]).default("manus").notNull(),
+  aiApiBaseUrl: varchar("aiApiBaseUrl", { length: 512 }),
+  aiApiKey: varchar("aiApiKey", { length: 512 }),
+  aiModel: varchar("aiModel", { length: 128 }),
+  // Legacy Ollama fields (kept for backward compat)
   ollamaEndpoint: varchar("ollamaEndpoint", { length: 512 }).default("http://localhost:11434"),
   ollamaModel: varchar("ollamaModel", { length: 128 }),
   systemPrompt: text("systemPrompt"),
+  // Voice Assistant configuration
+  voiceEnabled: boolean("voiceEnabled").default(false),
+  voiceActivationMode: mysqlEnum("voiceActivationMode", ["with_overlay", "separate_toggle", "always_visible"]).default("separate_toggle"),
+  voiceIdleOpacity: int("voiceIdleOpacity").default(30),
+  voiceActiveOpacity: int("voiceActiveOpacity").default(90),
+  voiceScope: mysqlEnum("voiceScope", ["accessibility", "chat", "both"]).default("both"),
+  voiceLanguageMode: mysqlEnum("voiceLanguageMode", ["auto_detect", "pre_selected", "user_chosen"]).default("auto_detect"),
+  voiceLanguages: json("voiceLanguages").$type<string[]>(),
+  voicePosition: mysqlEnum("voicePosition", ["top_left", "top_right", "bottom_left", "bottom_right", "center"]).default("bottom_left"),
   // Multi-channel communication
   whatsappNumber: varchar("whatsappNumber", { length: 32 }),
   phoneNumber: varchar("phoneNumber", { length: 32 }),

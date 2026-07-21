@@ -243,7 +243,7 @@ function WidgetsSection() {
                 <Link href={`/widget/${w.id}`} className="flex items-center justify-between cursor-pointer">
                   <div>
                     <h3 className="font-medium text-slate-800">{w.name}</h3>
-                    <p className="text-sm text-slate-500">Theme: {w.theme} • Model: {w.ollamaModel || "Not configured"}</p>
+                    <p className="text-sm text-slate-500">Theme: {w.theme} • Provider: {(w.aiProvider || "manus").toUpperCase()}{w.aiModel ? ` (${w.aiModel})` : ""}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className={`text-xs px-2 py-1 rounded-full ${w.isActive ? "bg-green-100 text-green-700" : "bg-slate-100 text-slate-500"}`}>

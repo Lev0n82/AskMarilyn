@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Accessibility,
   X,
@@ -37,6 +37,48 @@ export default function AccessibilityOverlay() {
     linkHighlight: false,
     screenReader: false,
   });
+
+  // Listen for voice assistant accessibility commands
+  useEffect(() => {
+    const handleVoiceCommand = (e: CustomEvent<{ command: string }>) => {
+      const { command } = e.detail;
+      switch (command) {
+        case "font_increase":
+          updateState("fontSize", Math.min(4, state.fontSize + 1));
+          break;
+        case "font_decrease":
+          updateState("fontSize", Math.max(-2, state.fontSize - 1));
+          break;
+        case "contrast":
+          updateState("highContrast", !state.highContrast);
+          break;
+        case "dyslexia_font":
+          updateState("dyslexiaFont", !state.dyslexiaFont);
+          break;
+        case "stop_animations":
+          updateState("stopAnimations", !state.stopAnimations);
+          break;
+        case "screen_reader":
+          updateState("screenReader", !state.screenReader);
+          break;
+        case "highlight_links":
+          updateState("linkHighlight", !state.linkHighlight);
+          break;
+        case "reading_guide":
+          updateState("readingGuide", !state.readingGuide);
+          break;
+        case "keyboard_nav":
+          updateState("keyboardNav", !state.keyboardNav);
+          break;
+        case "reset":
+          resetAll();
+          break;
+      }
+    };
+
+    window.addEventListener("hansen-accessibility-command", handleVoiceCommand as EventListener);
+    return () => window.removeEventListener("hansen-accessibility-command", handleVoiceCommand as EventListener);
+  }, [state]);
 
   const applyStyles = (newState: AccessibilityState) => {
     const root = document.documentElement;
