@@ -36,7 +36,7 @@ export default function Login() {
             <Sparkles className="w-6 h-6 text-indigo-600" />
           </div>
           <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
-          <CardDescription>Sign in to your AskMarilyn dashboard</CardDescription>
+          <CardDescription>Sign in to your Hansen dashboard</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">

@@ -59,7 +59,7 @@ class SDKServer {
     return this.signSession(
       {
         openId,
-        appId: ENV.appId || "askmarilyn",
+        appId: ENV.appId || "hansen",
         name: options.name || "",
       },
       options
@@ -106,7 +106,7 @@ class SDKServer {
 
       return {
         openId,
-        appId: (appId as string) || "askmarilyn",
+        appId: (appId as string) || "hansen",
         name: (name as string) || "",
       };
     } catch (error) {

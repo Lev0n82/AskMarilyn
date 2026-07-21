@@ -14,7 +14,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Sparkles className="w-6 h-6 text-indigo-600" />
-            <span className="font-bold text-xl text-slate-800">AskMarilyn</span>
+            <span className="font-bold text-xl text-slate-800">Hansen</span>
           </div>
           <div className="flex items-center gap-3">
             {user ? (
@@ -38,18 +38,18 @@ export default function Home() {
       {/* Hero */}
       <section className="max-w-6xl mx-auto px-6 py-24 text-center">
         <h1 className="text-5xl font-bold text-slate-900 leading-tight max-w-3xl mx-auto">
-          AI-Powered Conversations
+          Removing Barriers.
           <br />
-          <span className="text-indigo-600">For Every Website</span>
+          <span className="text-indigo-600">For Everyone. Everywhere.</span>
         </h1>
         <p className="mt-6 text-lg text-slate-600 max-w-2xl mx-auto">
-          Deploy intelligent chat widgets powered by your own AI models and knowledge base.
-          Fully customizable, accessible, and white-label ready.
+          AI-powered conversations and accessibility tools for every website.
+          Always free. Not a trial. Named in honor of Rick Hansen's mission to create a world without barriers.
         </p>
         <div className="mt-10 flex items-center justify-center gap-4">
           <Link href="/register">
             <Button size="lg" className="bg-indigo-600 hover:bg-indigo-700 px-8">
-              Start Free
+              Start Free — Forever
             </Button>
           </Link>
           <Button size="lg" variant="outline">
@@ -97,7 +97,8 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-slate-100 bg-white py-8">
         <div className="max-w-6xl mx-auto px-6 text-center text-sm text-slate-500">
-          <p>&copy; 2024 AskMarilyn. AI-Powered Conversational Platform.</p>
+          <p>&copy; 2026 Hansen. Removing barriers. For everyone. Everywhere.</p>
+          <p className="mt-1 text-xs text-slate-400">Named in honor of Rick Hansen's mission to create a world without barriers.</p>
         </div>
       </footer>
     </div>

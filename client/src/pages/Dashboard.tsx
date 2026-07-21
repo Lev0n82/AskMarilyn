@@ -68,7 +68,7 @@ export default function Dashboard() {
           {sidebarOpen ? (
             <div className="flex items-center gap-2">
               <Sparkles className="w-6 h-6 text-indigo-600" />
-              <span className="font-bold text-lg text-slate-800">AskMarilyn</span>
+              <span className="font-bold text-lg text-slate-800">Hansen</span>
             </div>
           ) : (
             <Sparkles className="w-6 h-6 text-indigo-600 mx-auto" />

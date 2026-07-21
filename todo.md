@@ -1,4 +1,4 @@
-# AskMarilyn Platform - Project TODO
+# Hansen Platform - Project TODO
 
 ## Phase 1: Foundation & Auth
 - [x] Database schema (users with roles: admin/reseller/user, tenants, widgets, documents, conversations, messages)

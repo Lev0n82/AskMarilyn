@@ -46,7 +46,7 @@ export default function Register() {
             <Sparkles className="w-6 h-6 text-indigo-600" />
           </div>
           <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
-          <CardDescription>Get started with AskMarilyn in seconds</CardDescription>
+          <CardDescription>Get started with Hansen in seconds</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
