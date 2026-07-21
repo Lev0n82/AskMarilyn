@@ -17,6 +17,12 @@ export default function Home() {
             <span className="font-bold text-xl text-slate-800">Hansen</span>
           </div>
           <div className="flex items-center gap-3">
+            <Link href="/demo">
+              <Button variant="ghost">Demo</Button>
+            </Link>
+            <Link href="/pricing">
+              <Button variant="ghost">Pricing</Button>
+            </Link>
             {user ? (
               <Button onClick={() => setLocation("/dashboard")} className="bg-indigo-600 hover:bg-indigo-700">
                 Dashboard
@@ -52,9 +58,11 @@ export default function Home() {
               Start Free — Forever
             </Button>
           </Link>
-          <Button size="lg" variant="outline">
-            View Demo
-          </Button>
+          <Link href="/demo">
+            <Button size="lg" variant="outline">
+              View Demo
+            </Button>
+          </Link>
         </div>
       </section>
 

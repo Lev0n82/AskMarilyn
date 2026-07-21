@@ -145,5 +145,82 @@ export function createWidgetApiRouter() {
     }
   });
 
+  // Demo chat endpoint — uses Manus built-in LLM directly (no widget ID required)
+  router.post("/api/widget/demo/chat", async (req, res) => {
+    try {
+      const { message, history } = req.body;
+      if (!message || typeof message !== "string") {
+        return res.status(400).json({ error: "Message is required" });
+      }
+
+      // Import invokeLLM from the core module
+      const { invokeLLM } = await import("./_core/llm");
+
+      // Build messages array from history + new message
+      const chatMessages: Array<{ role: "system" | "user" | "assistant"; content: string }> = [
+        {
+          role: "system",
+          content: `You are Hansen AI, a helpful conversational assistant. You are running as a live demo on the Hansen platform — a self-hosted, white-label AI chat widget with RAG knowledge base, accessibility overlay, and voice assistant capabilities.
+
+Key facts about Hansen:
+- Named in honor of Rick Hansen, Canadian accessibility advocate
+- Offers 3 widget themes: Liquid Glass, Warm Neutral, Aurora Soft
+- Features: RAG knowledge base, accessibility overlay, voice assistant eye, multi-channel escalation
+- Always-free tier available (not a trial — genuinely free forever)
+- Can be self-hosted with Ollama/vLLM or use hosted AI service
+- Supports on-premises deployment via Docker Compose
+
+Be helpful, concise, and friendly. If the user asks to "talk to a human" or requests human help, include [QUALIFIED_FOR_HUMAN_HELP] at the end of your response.`,
+        },
+      ];
+
+      // Add conversation history
+      if (Array.isArray(history)) {
+        for (const msg of history.slice(-10)) {
+          if (msg.role === "user" || msg.role === "assistant") {
+            chatMessages.push({ role: msg.role, content: msg.content });
+          }
+        }
+      }
+
+      // Add the new user message
+      chatMessages.push({ role: "user", content: message });
+
+      const result = await invokeLLM({
+        messages: chatMessages,
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 512,
+      });
+
+      let aiResponse = result.choices?.[0]?.message?.content || "I couldn't generate a response.";
+      if (typeof aiResponse !== "string") {
+        aiResponse = JSON.stringify(aiResponse);
+      }
+
+      let showContactBar = false;
+      if (aiResponse.includes("[QUALIFIED_FOR_HUMAN_HELP]")) {
+        showContactBar = true;
+        aiResponse = aiResponse.replace("[QUALIFIED_FOR_HUMAN_HELP]", "").trim();
+      }
+
+      res.json({
+        response: aiResponse,
+        showContactBar,
+        contactInfo: showContactBar ? {
+          whatsappNumber: "+1-555-0123",
+          phoneNumber: "+1-555-0456",
+          emailAddress: "support@hansen.ai",
+        } : null,
+      });
+    } catch (err: any) {
+      console.error("[Demo Chat] Error:", err?.message);
+      res.status(500).json({
+        response: "I'm currently experiencing high demand. Please try again in a moment, or sign up free to connect your own AI provider.",
+        showContactBar: false,
+        contactInfo: null,
+      });
+    }
+  });
+
   return router;
 }

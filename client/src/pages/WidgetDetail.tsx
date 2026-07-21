@@ -23,7 +23,9 @@ import {
   Copy,
   Eye,
   Mic,
+  Monitor,
 } from "lucide-react";
+import { WidgetPreview } from "@/components/WidgetPreview";
 
 export default function WidgetDetail() {
   const { user, loading } = useAuth();
@@ -39,6 +41,22 @@ export default function WidgetDetail() {
     },
     onError: (err) => toast.error(err.message),
   });
+
+  // Live preview state — synced from widget data, updated by GeneralTab in real-time
+  const [previewName, setPreviewName] = useState("");
+  const [previewTheme, setPreviewTheme] = useState("Warm Neutral");
+  const [previewGreeting, setPreviewGreeting] = useState("");
+  const [previewChips, setPreviewChips] = useState<string[]>([]);
+
+  // Sync preview state when widget data loads/changes
+  useEffect(() => {
+    if (widgetQuery.data) {
+      setPreviewName(widgetQuery.data.name);
+      setPreviewTheme(widgetQuery.data.theme);
+      setPreviewGreeting(widgetQuery.data.greeting || "Hi! How can I help?");
+      setPreviewChips(widgetQuery.data.suggestionChips || []);
+    }
+  }, [widgetQuery.data]);
 
   useEffect(() => {
     if (!loading && !user) setLocation("/login");
@@ -70,6 +88,7 @@ export default function WidgetDetail() {
       <main className="max-w-5xl mx-auto px-6 py-6">
         <Tabs defaultValue="general" className="space-y-6">
           <TabsList className="flex-wrap">
+            <TabsTrigger value="preview"><Monitor className="w-3.5 h-3.5 mr-1" />Preview</TabsTrigger>
             <TabsTrigger value="general">General</TabsTrigger>
             <TabsTrigger value="ai">AI Provider</TabsTrigger>
             <TabsTrigger value="knowledge">Knowledge Base</TabsTrigger>
@@ -78,8 +97,36 @@ export default function WidgetDetail() {
             <TabsTrigger value="embed">Embed Code</TabsTrigger>
           </TabsList>
 
+          <TabsContent value="preview">
+            <Card>
+              <CardHeader>
+                <CardTitle>Live Preview</CardTitle>
+                <CardDescription>See how your widget looks with current settings. Changes in the General tab update this preview in real-time.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <WidgetPreview
+                  theme={previewTheme}
+                  name={previewName}
+                  greeting={previewGreeting}
+                  chips={previewChips}
+                  whatsapp={widget.whatsappNumber || undefined}
+                  phone={widget.phoneNumber || undefined}
+                  email={widget.emailAddress || undefined}
+                />
+              </CardContent>
+            </Card>
+          </TabsContent>
           <TabsContent value="general">
-            <GeneralTab widget={widget} onUpdate={(data) => updateWidget.mutate({ id: widget.id, ...data })} />
+            <GeneralTab
+              widget={widget}
+              onUpdate={(data) => updateWidget.mutate({ id: widget.id, ...data })}
+              onPreviewChange={(data) => {
+                if (data.name !== undefined) setPreviewName(data.name);
+                if (data.theme !== undefined) setPreviewTheme(data.theme);
+                if (data.greeting !== undefined) setPreviewGreeting(data.greeting);
+                if (data.chips !== undefined) setPreviewChips(data.chips);
+              }}
+            />
           </TabsContent>
           <TabsContent value="ai">
             <AIProviderTab widget={widget} onUpdate={(data) => updateWidget.mutate({ id: widget.id, ...data })} />
@@ -103,11 +150,24 @@ export default function WidgetDetail() {
 }
 
 // ─── General Tab ─────────────────────────────────────────────────────────────
-function GeneralTab({ widget, onUpdate }: { widget: any; onUpdate: (data: any) => void }) {
+function GeneralTab({ widget, onUpdate, onPreviewChange }: {
+  widget: any;
+  onUpdate: (data: any) => void;
+  onPreviewChange?: (data: { name?: string; theme?: string; greeting?: string; chips?: string[] }) => void;
+}) {
   const [name, setName] = useState(widget.name);
   const [theme, setTheme] = useState(widget.theme);
   const [greeting, setGreeting] = useState(widget.greeting || "");
   const [chips, setChips] = useState((widget.suggestionChips || []).join(", "));
+
+  // Notify parent of live preview changes
+  const updatePreview = (field: string, value: any) => {
+    if (!onPreviewChange) return;
+    if (field === "name") onPreviewChange({ name: value });
+    else if (field === "theme") onPreviewChange({ theme: value });
+    else if (field === "greeting") onPreviewChange({ greeting: value });
+    else if (field === "chips") onPreviewChange({ chips: value.split(",").map((c: string) => c.trim()).filter(Boolean) });
+  };
 
   return (
     <Card>
@@ -118,11 +178,11 @@ function GeneralTab({ widget, onUpdate }: { widget: any; onUpdate: (data: any) =
       <CardContent className="space-y-4">
         <div className="space-y-2">
           <Label>Widget Name</Label>
-          <Input value={name} onChange={(e) => setName(e.target.value)} />
+          <Input value={name} onChange={(e) => { setName(e.target.value); updatePreview("name", e.target.value); }} />
         </div>
         <div className="space-y-2">
           <Label>Theme</Label>
-          <Select value={theme} onValueChange={setTheme}>
+          <Select value={theme} onValueChange={(v) => { setTheme(v); updatePreview("theme", v); }}>
             <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="Liquid Glass">Liquid Glass</SelectItem>
@@ -133,11 +193,11 @@ function GeneralTab({ widget, onUpdate }: { widget: any; onUpdate: (data: any) =
         </div>
         <div className="space-y-2">
           <Label>Greeting Message</Label>
-          <Input value={greeting} onChange={(e) => setGreeting(e.target.value)} placeholder="Hi there! How can I help?" />
+          <Input value={greeting} onChange={(e) => { setGreeting(e.target.value); updatePreview("greeting", e.target.value); }} placeholder="Hi there! How can I help?" />
         </div>
         <div className="space-y-2">
           <Label>Suggestion Chips (comma-separated)</Label>
-          <Input value={chips} onChange={(e) => setChips(e.target.value)} placeholder="Pricing, Demo, Support" />
+          <Input value={chips} onChange={(e) => { setChips(e.target.value); updatePreview("chips", e.target.value); }} placeholder="Pricing, Demo, Support" />
         </div>
         <Button
           onClick={() => onUpdate({

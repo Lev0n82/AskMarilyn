@@ -13,6 +13,9 @@ import WidgetDetail from "./pages/WidgetDetail";
 import WidgetEmbed from "./pages/WidgetEmbed";
 import SnippetGenerator from "./pages/SnippetGenerator";
 import ResellerPortal from "./pages/ResellerPortal";
+import Demo from "./pages/Demo";
+import Pricing from "./pages/Pricing";
+import Onboarding from "./pages/Onboarding";
 
 function Router() {
   return (
@@ -26,6 +29,9 @@ function Router() {
       <Route path="/embed/:id" component={WidgetEmbed} />
       <Route path="/snippets" component={SnippetGenerator} />
       <Route path="/reseller" component={ResellerPortal} />
+      <Route path="/demo" component={Demo} />
+      <Route path="/pricing" component={Pricing} />
+      <Route path="/onboarding" component={Onboarding} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

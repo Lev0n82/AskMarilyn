@@ -60,3 +60,23 @@
 - [x] Integration with RAG knowledge base for intelligent responses
 - [x] Integration with accessibility commands (font size, contrast, navigation)
 - [x] Admin configuration panel in dashboard for all voice assistant settings
+
+## Phase 9: Demo, Pricing, Onboarding, Live Preview
+- [x] Fix "View Demo" button — create functional demo page with all three theme previews
+- [x] Demo shows interactive widget in Liquid Glass, Warm Neutral, and Aurora Soft themes
+- [x] Demo widgets respond with AI (using Manus LLM)
+- [x] Pricing page at /pricing route
+- [x] Always-free tier clearly marked (not a trial)
+- [x] Hosted AI service plans (hosted Ollama + RAG pipeline packages)
+- [x] Pro and Enterprise tiers with hosted AI options
+- [x] Link to hosted AI service plan from pricing
+- [x] Onboarding wizard for first-run users
+- [x] Step 1: Connect AI provider
+- [x] Step 2: Upload first document
+- [x] Step 3: Generate embed snippet
+- [x] Complete in under 3 minutes
+- [x] Widget live preview in configuration page
+- [x] Real-time preview of Liquid Glass theme
+- [x] Real-time preview of Warm Neutral theme
+- [x] Real-time preview of Aurora Soft theme
+- [x] Preview updates as settings change
