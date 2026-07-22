@@ -86,3 +86,9 @@
 - [x] Liquid Glass: frosted glass, translucent panels, gradient background, blur effects
 - [x] Warm Neutral: warm off-white/cream tones, amber accents, solid borders, no blur
 - [x] Update inspiration statement to focus on freedom of transformation and control granularity
+
+## Phase 11: Demo Theme Rebuild (Matching Reference Mockups)
+- [x] Liquid Glass: Light background, acme-inc.com mock site, frosted glass widget with sparkle icon, "Ask us anything" pill, chips (Product tour, Pricing & plans, Integrations), full chat panel with Ava agent
+- [x] Warm Neutral: Solveo brand mock site, warm cream tones, avatar pill "Hi, need help?", chips (Pricing, Demo, Support), golden send button, Ava agent with WhatsApp/Call/Email bar
+- [x] Aurora Soft: Dark navy background, Aurora brand, gradient floating circle button, dark card with "How can we help?", gradient-bordered chips, full dark panel with gradient user messages
+- [x] All three themes now visually distinct and match the original design document
