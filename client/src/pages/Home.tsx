@@ -49,7 +49,7 @@ export default function Home() {
           <span className="text-indigo-600">For Everyone. Everywhere.</span>
         </h1>
         <p className="mt-6 text-lg text-slate-600 max-w-2xl mx-auto">
-          AI-powered conversations and accessibility tools for every website.
+          Machine learning technology-powered conversations and accessibility tools for every website.
           Always free. Not a trial. Named in honor of Rick Hansen's mission to create a world without barriers.
         </p>
         <div className="mt-10 flex items-center justify-center gap-4">
