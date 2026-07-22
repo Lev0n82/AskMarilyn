@@ -80,3 +80,9 @@
 - [x] Real-time preview of Warm Neutral theme
 - [x] Real-time preview of Aurora Soft theme
 - [x] Preview updates as settings change
+
+## Phase 10: Theme Visual Differentiation & Copy Updates
+- [x] Fix Liquid Glass vs Warm Neutral visual differentiation in Demo page
+- [x] Liquid Glass: frosted glass, translucent panels, gradient background, blur effects
+- [x] Warm Neutral: warm off-white/cream tones, amber accents, solid borders, no blur
+- [x] Update inspiration statement to focus on freedom of transformation and control granularity

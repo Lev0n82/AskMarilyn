@@ -20,13 +20,33 @@ export function WidgetPreview({ theme, name, greeting, chips, whatsapp, phone, e
   return (
     <div className="relative w-full h-[420px] rounded-xl border border-slate-200 overflow-hidden">
       {/* Mock background */}
-      <div className={`absolute inset-0 ${theme === "Aurora Soft" ? "bg-slate-900" : "bg-gradient-to-br from-slate-50 to-slate-100"}`}>
+      <div className={`absolute inset-0 ${
+        theme === "Aurora Soft" ? "bg-slate-900" 
+        : theme === "Liquid Glass" ? "bg-gradient-to-br from-indigo-50 via-purple-50/40 to-sky-50"
+        : "bg-amber-50/30"
+      }`}>
         <div className="p-4 space-y-2">
-          <div className={`h-4 w-32 rounded ${theme === "Aurora Soft" ? "bg-slate-700" : "bg-slate-200"}`} />
-          <div className={`h-3 w-full rounded ${theme === "Aurora Soft" ? "bg-slate-800" : "bg-slate-100"}`} />
-          <div className={`h-3 w-3/4 rounded ${theme === "Aurora Soft" ? "bg-slate-800" : "bg-slate-100"}`} />
+          <div className={`h-4 w-32 rounded ${
+            theme === "Aurora Soft" ? "bg-slate-700" 
+            : theme === "Liquid Glass" ? "bg-white/60 border border-white/40" 
+            : "bg-stone-200"
+          }`} />
+          <div className={`h-3 w-full rounded ${
+            theme === "Aurora Soft" ? "bg-slate-800" 
+            : theme === "Liquid Glass" ? "bg-white/40" 
+            : "bg-stone-100"
+          }`} />
+          <div className={`h-3 w-3/4 rounded ${
+            theme === "Aurora Soft" ? "bg-slate-800" 
+            : theme === "Liquid Glass" ? "bg-white/40" 
+            : "bg-stone-100"
+          }`} />
           <div className="h-4" />
-          <div className={`h-20 w-full rounded-lg ${theme === "Aurora Soft" ? "bg-slate-800" : "bg-slate-100"}`} />
+          <div className={`h-20 w-full rounded-lg ${
+            theme === "Aurora Soft" ? "bg-slate-800" 
+            : theme === "Liquid Glass" ? "bg-white/50 border border-white/30" 
+            : "bg-stone-100 border border-stone-200"
+          }`} />
         </div>
       </div>
 
@@ -167,16 +187,16 @@ function getPreviewThemeClasses(theme: string) {
   switch (theme) {
     case "Liquid Glass":
       return {
-        pill: "bg-white/80 backdrop-blur-xl border border-white/50 text-slate-700 shadow-[0_8px_32px_rgba(0,0,0,0.08)]",
-        card: "bg-white/90 backdrop-blur-xl border border-white/60",
-        panel: "bg-white/95 backdrop-blur-xl border border-white/60",
-        header: "bg-white/60 backdrop-blur-sm border-slate-100",
-        avatar: "bg-indigo-100/80 text-indigo-600",
-        chip: "border-indigo-200/60 text-indigo-700 bg-indigo-50/50",
-        input: "border-slate-200/60 bg-white/50 text-slate-400",
-        userBubble: "bg-indigo-600 text-white",
-        assistantBubble: "bg-slate-100/80 text-slate-800",
-        sendBtn: "bg-indigo-600 text-white",
+        pill: "bg-white/70 backdrop-blur-2xl border border-white/40 text-slate-700 shadow-[0_8px_32px_rgba(99,102,241,0.15)]",
+        card: "bg-white/75 backdrop-blur-2xl border border-white/50 shadow-[0_12px_40px_rgba(99,102,241,0.12)]",
+        panel: "bg-white/80 backdrop-blur-2xl border border-white/50 shadow-[0_16px_48px_rgba(99,102,241,0.1)]",
+        header: "bg-white/50 backdrop-blur-md border-indigo-100/40",
+        avatar: "bg-gradient-to-br from-indigo-200/80 to-purple-200/80 text-indigo-700",
+        chip: "border-indigo-200/50 text-indigo-700 bg-indigo-50/40 backdrop-blur-sm",
+        input: "border-white/40 bg-white/30 backdrop-blur-sm text-slate-400",
+        userBubble: "bg-gradient-to-r from-indigo-500 to-purple-500 text-white",
+        assistantBubble: "bg-white/60 backdrop-blur-sm text-slate-800 border border-white/40",
+        sendBtn: "bg-gradient-to-r from-indigo-500 to-purple-500 text-white",
       };
     case "Aurora Soft":
       return {
@@ -194,16 +214,16 @@ function getPreviewThemeClasses(theme: string) {
     case "Warm Neutral":
     default:
       return {
-        pill: "bg-white text-slate-700 border border-slate-200",
-        card: "bg-white border border-slate-200",
-        panel: "bg-white border border-slate-200",
-        header: "bg-slate-50 border-slate-100",
-        avatar: "bg-amber-100 text-amber-700",
-        chip: "border-slate-200 text-slate-600 bg-slate-50",
-        input: "border-slate-200 bg-slate-50 text-slate-400",
-        userBubble: "bg-slate-800 text-white",
-        assistantBubble: "bg-slate-100 text-slate-800",
-        sendBtn: "bg-slate-800 text-white",
+        pill: "bg-stone-50 text-stone-700 border border-stone-300 shadow-sm",
+        card: "bg-stone-50 border border-stone-200 shadow-md",
+        panel: "bg-stone-50 border border-stone-200 shadow-md",
+        header: "bg-stone-100 border-stone-200",
+        avatar: "bg-amber-200 text-amber-800",
+        chip: "border-amber-200 text-stone-700 bg-amber-50",
+        input: "border-stone-300 bg-white text-stone-400",
+        userBubble: "bg-stone-800 text-white",
+        assistantBubble: "bg-amber-50 text-stone-800 border border-amber-100",
+        sendBtn: "bg-amber-600 text-white",
       };
   }
 }

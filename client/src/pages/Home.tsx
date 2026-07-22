@@ -50,7 +50,7 @@ export default function Home() {
         </h1>
         <p className="mt-6 text-lg text-slate-600 max-w-2xl mx-auto">
           Machine learning technology-powered conversations and accessibility tools for every website.
-          Always free. Not a trial. Named in honor of Rick Hansen's mission to create a world without barriers.
+          Always free. Not a trial. Inspired by the freedom of transformation and the granularity of control.
         </p>
         <div className="mt-10 flex items-center justify-center gap-4">
           <Link href="/register">
@@ -106,7 +106,7 @@ export default function Home() {
       <footer className="border-t border-slate-100 bg-white py-8">
         <div className="max-w-6xl mx-auto px-6 text-center text-sm text-slate-500">
           <p>&copy; 2026 Hansen. Removing barriers. For everyone. Everywhere.</p>
-          <p className="mt-1 text-xs text-slate-400">Named in honor of Rick Hansen's mission to create a world without barriers.</p>
+          <p className="mt-1 text-xs text-slate-400">Inspired by the freedom of transformation and the granularity of control.</p>
         </div>
       </footer>
     </div>
