@@ -92,3 +92,13 @@
 - [x] Warm Neutral: Solveo brand mock site, warm cream tones, avatar pill "Hi, need help?", chips (Pricing, Demo, Support), golden send button, Ava agent with WhatsApp/Call/Email bar
 - [x] Aurora Soft: Dark navy background, Aurora brand, gradient floating circle button, dark card with "How can we help?", gradient-bordered chips, full dark panel with gradient user messages
 - [x] All three themes now visually distinct and match the original design document
+
+## Phase 12: Premium Visual Rebuild of Demo Themes
+- [x] Research Apple Liquid Glass CSS techniques (backdrop-filter, glassmorphism, layered depth, refraction)
+- [x] Research warm/calm design systems (generous whitespace, warm palette, professional typography)
+- [x] Research aurora/dark gradient UI patterns (mesh gradients, glow effects, gradient borders)
+- [x] Rebuild Liquid Glass widget with true frosted glass translucency, visible background refraction, iridescent borders
+- [x] Rebuild Warm Neutral widget with proper warm cream tones, professional typography, subtle shadows
+- [x] Rebuild Aurora Soft widget with dark surfaces, glowing gradient meshes, gradient-bordered elements
+- [x] Ensure mock websites behind widgets are rich and detailed (not flat/empty)
+- [x] All three themes look premium and clearly distinct from each other
