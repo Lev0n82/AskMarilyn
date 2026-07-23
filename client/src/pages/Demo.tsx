@@ -148,9 +148,17 @@ export default function Demo() {
 function MockSiteContent({ theme }: { theme: ThemeName }) {
   if (theme === "Liquid Glass") {
     return (
-      <div className="p-6 pt-4">
+      <div className="p-6 pt-4 relative">
+        {/* Colorful gradient wash so glass material is visible */}
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: `
+            radial-gradient(ellipse 50% 50% at 70% 60%, rgba(167, 139, 250, 0.25) 0%, transparent 60%),
+            radial-gradient(ellipse 40% 40% at 30% 70%, rgba(99, 102, 241, 0.2) 0%, transparent 50%),
+            radial-gradient(ellipse 60% 30% at 50% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 50%)
+          `
+        }} />
         {/* Nav */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="relative flex items-center justify-between mb-8">
           <div className="flex items-center gap-6 text-xs text-slate-600">
             <span className="font-semibold text-slate-800">Product ▾</span>
             <span>Resources ▾</span>
@@ -162,7 +170,7 @@ function MockSiteContent({ theme }: { theme: ThemeName }) {
           </div>
         </div>
         {/* Hero */}
-        <div className="flex gap-6">
+        <div className="relative flex gap-6">
           <div className="flex-1">
             <h2 className="text-[26px] font-bold text-slate-900 leading-tight tracking-tight">
               The all-in-one<br />platform for<br />
@@ -338,12 +346,13 @@ function MockSiteContent({ theme }: { theme: ThemeName }) {
     <div className="p-6 pt-4 relative">
       {/* Aurora gradient mesh overlay */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-[60%] opacity-40"
+        <div className="absolute top-0 left-0 w-full h-[70%]"
           style={{
             background: `
-              radial-gradient(ellipse 80% 50% at 20% 20%, rgba(56, 189, 248, 0.2) 0%, transparent 60%),
-              radial-gradient(ellipse 60% 40% at 80% 10%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
-              radial-gradient(ellipse 50% 30% at 50% 30%, rgba(236, 72, 153, 0.1) 0%, transparent 50%)
+              radial-gradient(ellipse 90% 60% at 30% 10%, rgba(56, 189, 248, 0.35) 0%, transparent 55%),
+              radial-gradient(ellipse 70% 50% at 75% 15%, rgba(168, 85, 247, 0.3) 0%, transparent 50%),
+              radial-gradient(ellipse 60% 40% at 50% 25%, rgba(236, 72, 153, 0.2) 0%, transparent 45%),
+              radial-gradient(ellipse 100% 30% at 50% 0%, rgba(16, 185, 129, 0.15) 0%, transparent 60%)
             `
           }}
         />
@@ -414,8 +423,8 @@ function MockSiteContent({ theme }: { theme: ThemeName }) {
 function getMockSiteBackground(theme: ThemeName) {
   switch (theme) {
     case "Liquid Glass":
-      // Rich pastel gradient so the glass effect is visible
-      return "bg-gradient-to-br from-[#f0f0ff] via-[#e8f0ff] to-[#f5eeff]";
+      // Rich pastel gradient so the glass effect is clearly visible
+      return "bg-gradient-to-br from-[#e8e0ff] via-[#d5e8ff] to-[#ffe0f0]";
     case "Warm Neutral":
       return "bg-[#FAFAF8]";
     case "Aurora Soft":
@@ -529,13 +538,11 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
             onClick={() => setState("card")}
             className="flex items-center gap-2 px-5 py-3 rounded-full transition-all duration-200 hover:scale-105 active:scale-95"
             style={{
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.35), rgba(255,255,255,0.15))',
-              backdropFilter: 'blur(40px) saturate(180%)',
-              WebkitBackdropFilter: 'blur(40px) saturate(180%)',
-              border: '1px solid transparent',
-              borderImage: 'linear-gradient(135deg, rgba(255,255,255,0.9), rgba(167,139,250,0.4), rgba(99,102,241,0.3), rgba(255,255,255,0.7)) 1',
-              borderImageSlice: 1,
-              boxShadow: '0 8px 32px rgba(99, 102, 241, 0.15), 0 0 0 1px rgba(255,255,255,0.5), inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(167,139,250,0.2)',
+              background: 'rgba(255, 255, 255, 0.55)',
+              backdropFilter: 'blur(20px) saturate(150%)',
+              WebkitBackdropFilter: 'blur(20px) saturate(150%)',
+              border: '1px solid rgba(255, 255, 255, 0.7)',
+              boxShadow: '0 8px 32px rgba(99, 102, 241, 0.2), 0 2px 8px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9)',
             }}
           >
             <Sparkles className="w-4 h-4 text-indigo-500" />
@@ -547,11 +554,11 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
           <div
             className="w-[280px] rounded-[24px] overflow-hidden"
             style={{
-              background: 'linear-gradient(160deg, rgba(255,255,255,0.45), rgba(255,255,255,0.2), rgba(237,233,254,0.15))',
-              backdropFilter: 'blur(40px) saturate(200%)',
-              WebkitBackdropFilter: 'blur(40px) saturate(200%)',
-              border: '1.5px solid rgba(255, 255, 255, 0.6)',
-              boxShadow: '0 16px 48px rgba(99, 102, 241, 0.12), 0 4px 16px rgba(0,0,0,0.04), 0 0 0 1px rgba(167,139,250,0.15), inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 0 rgba(167,139,250,0.15), inset 0 0 24px rgba(99,102,241,0.03)',
+              background: 'rgba(255, 255, 255, 0.65)',
+              backdropFilter: 'blur(24px) saturate(160%)',
+              WebkitBackdropFilter: 'blur(24px) saturate(160%)',
+              border: '1px solid rgba(255, 255, 255, 0.8)',
+              boxShadow: '0 20px 60px rgba(99, 102, 241, 0.18), 0 8px 24px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255, 255, 255, 0.95)',
             }}
           >
             <div className="p-5">
@@ -572,9 +579,11 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
                     onClick={() => handleChipClick(chip)}
                     className="flex items-center gap-2 w-full text-left text-sm px-3.5 py-2.5 rounded-xl transition-all duration-150 hover:scale-[1.02] active:scale-[0.98]"
                     style={{
-                      background: 'rgba(255, 255, 255, 0.4)',
-                      border: '1px solid rgba(255, 255, 255, 0.6)',
-                      boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.6)',
+                      background: 'rgba(255, 255, 255, 0.5)',
+                      backdropFilter: 'blur(8px)',
+                      WebkitBackdropFilter: 'blur(8px)',
+                      border: '1px solid rgba(255, 255, 255, 0.7)',
+                      boxShadow: '0 2px 8px rgba(99,102,241,0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
                     }}
                   >
                     <span className="text-indigo-400">{i === 0 ? "✦" : i === 1 ? "◇" : "⊕"}</span>
@@ -601,11 +610,11 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
           <div
             className="w-[380px] h-[500px] rounded-[24px] overflow-hidden flex flex-col"
             style={{
-              background: 'linear-gradient(160deg, rgba(255,255,255,0.5), rgba(255,255,255,0.25), rgba(237,233,254,0.15))',
-              backdropFilter: 'blur(40px) saturate(200%)',
-              WebkitBackdropFilter: 'blur(40px) saturate(200%)',
-              border: '1.5px solid rgba(255, 255, 255, 0.6)',
-              boxShadow: '0 24px 64px rgba(99, 102, 241, 0.14), 0 8px 24px rgba(0,0,0,0.04), 0 0 0 1px rgba(167,139,250,0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 0 rgba(167,139,250,0.1), inset 0 0 32px rgba(99,102,241,0.03)',
+              background: 'rgba(255, 255, 255, 0.7)',
+              backdropFilter: 'blur(24px) saturate(160%)',
+              WebkitBackdropFilter: 'blur(24px) saturate(160%)',
+              border: '1px solid rgba(255, 255, 255, 0.85)',
+              boxShadow: '0 24px 64px rgba(99, 102, 241, 0.2), 0 8px 24px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255, 255, 255, 0.95)',
             }}
           >
             {/* Header */}
@@ -737,7 +746,7 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
         {state === "pill" && (
           <button
             onClick={() => setState("card")}
-            className="flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-white border border-[#E5E4E0] shadow-[0_4px_16px_rgba(45,45,42,0.06),0_1px_3px_rgba(45,45,42,0.04)] text-stone-700 transition-all duration-200 hover:shadow-[0_6px_20px_rgba(45,45,42,0.1)] active:scale-[0.97]"
+            className="flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-white border border-[#E5E4E0] shadow-[0_8px_24px_rgba(45,45,42,0.1),0_2px_6px_rgba(45,45,42,0.06)] text-stone-700 transition-all duration-200 hover:shadow-[0_12px_32px_rgba(45,45,42,0.14)] active:scale-[0.97]"
           >
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center overflow-hidden ring-2 ring-amber-300/50">
               <span className="text-sm">👩</span>
@@ -747,7 +756,7 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
         )}
 
         {state === "card" && (
-          <div className="w-[280px] rounded-[16px] bg-white border border-[#E5E4E0] shadow-[0_16px_48px_rgba(45,45,42,0.08),0_4px_12px_rgba(45,45,42,0.04)] overflow-hidden">
+          <div className="w-[280px] rounded-[16px] bg-white border border-[#E5E4E0] shadow-[0_20px_56px_rgba(45,45,42,0.12),0_8px_20px_rgba(45,45,42,0.06)] overflow-hidden">
             <div className="p-4">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2.5">
@@ -793,7 +802,7 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
         )}
 
         {state === "panel" && (
-          <div className="w-[380px] h-[500px] rounded-[16px] bg-white border border-[#E5E4E0] shadow-[0_20px_56px_rgba(45,45,42,0.1),0_4px_16px_rgba(45,45,42,0.04)] overflow-hidden flex flex-col">
+          <div className="w-[380px] h-[500px] rounded-[16px] bg-white border border-[#E5E4E0] shadow-[0_24px_64px_rgba(45,45,42,0.14),0_8px_24px_rgba(45,45,42,0.06)] overflow-hidden flex flex-col">
             {/* Header */}
             <div className="px-4 py-3 flex items-center justify-between border-b border-[#E5E4E0] bg-[#FAFAF8]">
               <div className="flex items-center gap-3">
@@ -938,7 +947,7 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
           className="w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
           style={{
             background: 'linear-gradient(135deg, #7C3AED, #A855F7, #EC4899)',
-            boxShadow: '0 4px 24px rgba(168, 85, 247, 0.5), 0 0 48px rgba(168, 85, 247, 0.2), inset 0 1px 0 rgba(255,255,255,0.2)',
+            boxShadow: '0 6px 32px rgba(168, 85, 247, 0.6), 0 0 64px rgba(168, 85, 247, 0.3), 0 0 96px rgba(168, 85, 247, 0.1), inset 0 1px 0 rgba(255,255,255,0.3)',
           }}
         >
           <MessageCircle className="w-6 h-6 text-white" />
@@ -946,11 +955,14 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
       )}
 
       {state === "card" && (
-        <div className="w-[280px] rounded-[16px] overflow-hidden" style={{
+        <div className="w-[280px] rounded-[16px] overflow-hidden relative" style={{
           background: '#161B22',
           border: '1px solid rgba(255, 255, 255, 0.08)',
-          boxShadow: '0 20px 56px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255,255,255,0.1)',
+          borderTop: 'none',
+          boxShadow: '0 20px 56px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255,255,255,0.1), 0 0 40px rgba(168,85,247,0.1)',
         }}>
+          {/* Gradient top border */}
+          <div className="absolute top-0 left-0 right-0 h-[2px] rounded-t-[16px]" style={{ background: 'linear-gradient(90deg, #10B981, #06B6D4, #7C3AED, #EC4899, #F59E0B)' }} />
           <div className="p-4">
             <div className="flex items-center justify-between mb-3">
               <div className="w-7 h-7 rounded-lg bg-[#0D1117] flex items-center justify-center border border-white/5">
@@ -1018,11 +1030,14 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
       )}
 
       {state === "panel" && (
-        <div className="w-[380px] h-[500px] rounded-[16px] overflow-hidden flex flex-col" style={{
+        <div className="w-[380px] h-[500px] rounded-[16px] overflow-hidden flex flex-col relative" style={{
           background: '#0D1117',
           border: '1px solid rgba(255, 255, 255, 0.08)',
-          boxShadow: '0 24px 64px rgba(0, 0, 0, 0.6), 0 0 1px rgba(255,255,255,0.1)',
+          borderTop: 'none',
+          boxShadow: '0 24px 64px rgba(0, 0, 0, 0.6), 0 0 1px rgba(255,255,255,0.1), 0 0 60px rgba(168,85,247,0.08)',
         }}>
+          {/* Gradient top border */}
+          <div className="absolute top-0 left-0 right-0 h-[2px] rounded-t-[16px] z-10" style={{ background: 'linear-gradient(90deg, #10B981, #06B6D4, #7C3AED, #EC4899, #F59E0B)' }} />
           {/* Header */}
           <div className="px-4 py-3 flex items-center justify-between" style={{
             background: '#161B22',
