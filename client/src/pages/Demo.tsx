@@ -149,12 +149,13 @@ function MockSiteContent({ theme }: { theme: ThemeName }) {
   if (theme === "Liquid Glass") {
     return (
       <div className="p-6 pt-4 relative">
-        {/* Colorful gradient wash so glass material is visible */}
+        {/* Visible pastel wash behind content — gives glass material something to refract */}
         <div className="absolute inset-0 pointer-events-none" style={{
           background: `
-            radial-gradient(ellipse 50% 50% at 70% 60%, rgba(167, 139, 250, 0.25) 0%, transparent 60%),
-            radial-gradient(ellipse 40% 40% at 30% 70%, rgba(99, 102, 241, 0.2) 0%, transparent 50%),
-            radial-gradient(ellipse 60% 30% at 50% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 50%)
+            radial-gradient(ellipse 80% 60% at 50% 60%, rgba(167, 139, 250, 0.12) 0%, transparent 55%),
+            radial-gradient(ellipse 60% 50% at 25% 75%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+            radial-gradient(ellipse 70% 40% at 75% 80%, rgba(236, 72, 153, 0.08) 0%, transparent 50%),
+            radial-gradient(ellipse 50% 30% at 40% 40%, rgba(56, 189, 248, 0.06) 0%, transparent 45%)
           `
         }} />
         {/* Nav */}
@@ -192,7 +193,7 @@ function MockSiteContent({ theme }: { theme: ThemeName }) {
             </div>
           </div>
           {/* Dashboard mockup - frosted glass card */}
-          <div className="w-[180px] bg-white/40 backdrop-blur-xl rounded-2xl border border-white/60 shadow-[0_8px_32px_rgba(99,102,241,0.08),inset_0_1px_0_rgba(255,255,255,0.8)] p-3 text-[8px] text-slate-600">
+          <div className="w-[180px] rounded-2xl p-3 text-[8px] text-slate-600" style={{ background: 'rgba(255,255,255,0.6)', backdropFilter: 'blur(16px) saturate(150%)', WebkitBackdropFilter: 'blur(16px) saturate(150%)', border: '1px solid rgba(255,255,255,0.7)', boxShadow: '0 8px 24px rgba(99,102,241,0.06), inset 0 1px 0 rgba(255,255,255,0.8)' }}>
             <div className="flex items-center gap-1.5 mb-2 pb-1.5 border-b border-slate-200/50">
               <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-indigo-400 to-purple-400"></div>
               <span className="font-semibold text-[9px] text-slate-700">Acme Inc.</span>
@@ -275,7 +276,7 @@ function MockSiteContent({ theme }: { theme: ThemeName }) {
           <span>✓ Cancel anytime</span>
         </div>
         {/* Dashboard preview - with depth */}
-        <div className="mt-5 bg-white rounded-xl border border-stone-200 p-3 shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
+        <div className="mt-5 bg-white rounded-xl border border-stone-200 p-3 shadow-[0_8px_32px_rgba(120,100,60,0.08),0_2px_8px_rgba(0,0,0,0.03)]">
           <div className="flex gap-3">
             <div className="w-24 space-y-1.5 border-r border-stone-100 pr-2">
               <div className="text-[8px] bg-stone-800 text-white px-2 py-0.5 rounded font-medium">Overview</div>
@@ -346,13 +347,13 @@ function MockSiteContent({ theme }: { theme: ThemeName }) {
     <div className="p-6 pt-4 relative">
       {/* Aurora gradient mesh overlay */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-[70%]"
+        <div className="absolute top-0 left-0 w-full h-[80%]"
           style={{
             background: `
-              radial-gradient(ellipse 90% 60% at 30% 10%, rgba(56, 189, 248, 0.35) 0%, transparent 55%),
-              radial-gradient(ellipse 70% 50% at 75% 15%, rgba(168, 85, 247, 0.3) 0%, transparent 50%),
-              radial-gradient(ellipse 60% 40% at 50% 25%, rgba(236, 72, 153, 0.2) 0%, transparent 45%),
-              radial-gradient(ellipse 100% 30% at 50% 0%, rgba(16, 185, 129, 0.15) 0%, transparent 60%)
+              radial-gradient(ellipse 130% 55% at 15% 0%, rgba(6, 182, 212, 0.55) 0%, transparent 50%),
+              radial-gradient(ellipse 110% 65% at 85% 5%, rgba(168, 85, 247, 0.5) 0%, transparent 45%),
+              radial-gradient(ellipse 90% 45% at 50% 8%, rgba(236, 72, 153, 0.3) 0%, transparent 40%),
+              radial-gradient(ellipse 150% 40% at 50% 0%, rgba(16, 185, 129, 0.35) 0%, transparent 55%)
             `
           }}
         />
@@ -385,7 +386,7 @@ function MockSiteContent({ theme }: { theme: ThemeName }) {
         Aurora helps teams collaborate, automate workflows, and deliver exceptional products with confidence.
       </p>
       <div className="relative flex items-center gap-3 mt-5">
-        <span className="text-xs bg-emerald-500 text-white px-4 py-2 rounded-lg flex items-center gap-1 font-medium shadow-[0_0_16px_rgba(16,185,129,0.3)]">Get started for free →</span>
+        <span className="text-xs bg-emerald-500 text-white px-4 py-2 rounded-lg flex items-center gap-1 font-medium shadow-[0_0_24px_rgba(16,185,129,0.5),0_0_48px_rgba(16,185,129,0.2)]">Get started for free →</span>
         <span className="text-xs text-slate-400">Talk to sales</span>
       </div>
       <p className="relative text-[9px] text-slate-500 mt-2">✓ No credit card required</p>
@@ -423,8 +424,8 @@ function MockSiteContent({ theme }: { theme: ThemeName }) {
 function getMockSiteBackground(theme: ThemeName) {
   switch (theme) {
     case "Liquid Glass":
-      // Rich pastel gradient so the glass effect is clearly visible
-      return "bg-gradient-to-br from-[#e8e0ff] via-[#d5e8ff] to-[#ffe0f0]";
+      // Soft gray with subtle lavender/blue pastel wash — glass material needs color behind it
+      return "bg-gradient-to-b from-[#F5F5F7] via-[#F0EEFF] to-[#F5F0FA]";
     case "Warm Neutral":
       return "bg-[#FAFAF8]";
     case "Aurora Soft":
@@ -538,11 +539,11 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
             onClick={() => setState("card")}
             className="flex items-center gap-2 px-5 py-3 rounded-full transition-all duration-200 hover:scale-105 active:scale-95"
             style={{
-              background: 'rgba(255, 255, 255, 0.55)',
-              backdropFilter: 'blur(20px) saturate(150%)',
-              WebkitBackdropFilter: 'blur(20px) saturate(150%)',
-              border: '1px solid rgba(255, 255, 255, 0.7)',
-              boxShadow: '0 8px 32px rgba(99, 102, 241, 0.2), 0 2px 8px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9)',
+              background: 'rgba(255, 255, 255, 0.7)',
+              backdropFilter: 'blur(24px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+              border: '1px solid rgba(255, 255, 255, 0.8)',
+              boxShadow: '0 4px 20px rgba(99, 102, 241, 0.08), 0 2px 8px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.9)',
             }}
           >
             <Sparkles className="w-4 h-4 text-indigo-500" />
@@ -554,11 +555,11 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
           <div
             className="w-[280px] rounded-[24px] overflow-hidden"
             style={{
-              background: 'rgba(255, 255, 255, 0.65)',
-              backdropFilter: 'blur(24px) saturate(160%)',
-              WebkitBackdropFilter: 'blur(24px) saturate(160%)',
-              border: '1px solid rgba(255, 255, 255, 0.8)',
-              boxShadow: '0 20px 60px rgba(99, 102, 241, 0.18), 0 8px 24px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255, 255, 255, 0.95)',
+              background: 'rgba(255, 255, 255, 0.75)',
+              backdropFilter: 'blur(40px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+              border: '1px solid rgba(255, 255, 255, 0.6)',
+              boxShadow: '0 12px 40px rgba(99, 102, 241, 0.1), 0 4px 12px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)',
             }}
           >
             <div className="p-5">
@@ -582,8 +583,8 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
                       background: 'rgba(255, 255, 255, 0.5)',
                       backdropFilter: 'blur(8px)',
                       WebkitBackdropFilter: 'blur(8px)',
-                      border: '1px solid rgba(255, 255, 255, 0.7)',
-                      boxShadow: '0 2px 8px rgba(99,102,241,0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
+                      border: '1px solid rgba(255, 255, 255, 0.6)',
+                      boxShadow: '0 1px 4px rgba(99,102,241,0.06), inset 0 1px 0 rgba(255,255,255,0.7)',
                     }}
                   >
                     <span className="text-indigo-400">{i === 0 ? "✦" : i === 1 ? "◇" : "⊕"}</span>
@@ -610,17 +611,17 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
           <div
             className="w-[380px] h-[500px] rounded-[24px] overflow-hidden flex flex-col"
             style={{
-              background: 'rgba(255, 255, 255, 0.7)',
-              backdropFilter: 'blur(24px) saturate(160%)',
-              WebkitBackdropFilter: 'blur(24px) saturate(160%)',
-              border: '1px solid rgba(255, 255, 255, 0.85)',
-              boxShadow: '0 24px 64px rgba(99, 102, 241, 0.2), 0 8px 24px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255, 255, 255, 0.95)',
+              background: 'rgba(255, 255, 255, 0.8)',
+              backdropFilter: 'blur(40px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+              border: '1px solid rgba(255, 255, 255, 0.6)',
+              boxShadow: '0 16px 48px rgba(99, 102, 241, 0.12), 0 4px 12px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)',
             }}
           >
             {/* Header */}
-            <div className="px-4 py-3 flex items-center justify-between" style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.4)' }}>
+            <div className="px-4 py-3 flex items-center justify-between" style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.06)' }}>
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-200 to-purple-200 flex items-center justify-center shadow-sm">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
                   <span className="text-lg">👩</span>
                 </div>
                 <div>
@@ -647,11 +648,11 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
                 <div className="space-y-3">
                   <p className="text-[11px] text-slate-400 text-center">Today</p>
                   <div className="flex items-start gap-2">
-                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-200 to-purple-200 flex items-center justify-center shrink-0">
+                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center shrink-0">
                       <span className="text-sm">👩</span>
                     </div>
                     <div>
-                      <div className="px-3 py-2 rounded-2xl rounded-tl-sm text-sm text-slate-700" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.7)' }}>
+                      <div className="px-3 py-2 rounded-2xl rounded-tl-sm text-sm text-slate-700 bg-white/50" style={{ backdropFilter: 'blur(4px)' }}>
                         Hi there! 👋 I'd be happy to help you with that. What can I assist you with today?
                       </div>
                       <p className="text-[10px] text-slate-400 mt-0.5 px-1">10:30 AM</p>
@@ -662,16 +663,16 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
               {messages.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "items-start gap-2"}`}>
                   {msg.role === "assistant" && (
-                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-200 to-purple-200 flex items-center justify-center shrink-0">
+                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center shrink-0">
                       <span className="text-sm">👩</span>
                     </div>
                   )}
                   <div className="max-w-[78%]">
                     <div className={`px-3 py-2 rounded-2xl text-sm ${
                       msg.role === "user"
-                        ? "rounded-tr-sm bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-md"
-                        : "rounded-tl-sm text-slate-700"
-                    }`} style={msg.role === "assistant" ? { background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.7)' } : undefined}>
+                        ? "rounded-tr-sm bg-gradient-to-r from-indigo-500 to-purple-500 text-white"
+                        : "rounded-tl-sm text-slate-700 bg-white/50"
+                    }`}>
                       {msg.content}
                     </div>
                     {msg.time && <p className={`text-[10px] text-slate-400 mt-0.5 ${msg.role === "user" ? "text-right" : ""} px-1`}>{msg.time} {msg.role === "user" && "✓✓"}</p>}
@@ -680,10 +681,10 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
               ))}
               {loading && (
                 <div className="flex items-start gap-2">
-                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-200 to-purple-200 flex items-center justify-center shrink-0">
+                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center shrink-0">
                     <span className="text-sm">👩</span>
                   </div>
-                  <div className="px-3 py-2 rounded-2xl rounded-tl-sm text-sm text-slate-700" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.7)' }}>
+                  <div className="px-3 py-2 rounded-2xl rounded-tl-sm text-sm text-slate-700 bg-white/50" style={{ backdropFilter: 'blur(4px)' }}>
                     <span className="animate-pulse">Thinking...</span>
                   </div>
                 </div>
@@ -693,7 +694,7 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
 
             {/* Contact Bar */}
             {showContactBar && (
-              <div className="px-4 py-2 flex items-center justify-center gap-4" style={{ borderTop: '1px solid rgba(255,255,255,0.4)' }}>
+              <div className="px-4 py-2 flex items-center justify-center gap-4" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
                 <a href="#" className="flex items-center gap-1.5 text-xs text-green-700 hover:underline">
                   <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
                   WhatsApp
@@ -708,15 +709,15 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
             )}
 
             {/* Input */}
-            <div className="px-4 py-3" style={{ borderTop: '1px solid rgba(255,255,255,0.4)' }}>
+            <div className="px-4 py-3" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
               <form onSubmit={(e) => { e.preventDefault(); sendMessage(input); }} className="flex items-center gap-2">
                 <input
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Type your message..."
-                  className="flex-1 text-sm px-3 py-2 rounded-xl text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-300/50"
-                  style={{ background: 'rgba(255,255,255,0.4)', border: '1px solid rgba(255,255,255,0.5)' }}
+                  className="flex-1 text-sm px-3 py-2 rounded-xl text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-200/50"
+                  style={{ background: 'rgba(255,255,255,0.4)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.6)' }}
                   disabled={loading}
                 />
                 <button className="p-1.5 text-slate-400 hover:text-slate-600">
@@ -725,7 +726,8 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
                 <button
                   type="submit"
                   disabled={!input.trim() || loading}
-                  className="p-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-md hover:shadow-lg transition-all disabled:opacity-50"
+                  className="p-2 rounded-xl text-white shadow-sm transition-all disabled:opacity-50"
+                  style={{ background: 'linear-gradient(135deg, #6366F1, #8B5CF6)', boxShadow: '0 2px 12px rgba(99,102,241,0.3)' }}
                 >
                   <Send className="w-4 h-4" />
                 </button>
@@ -748,7 +750,7 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
             onClick={() => setState("card")}
             className="flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-white border border-[#E5E4E0] shadow-[0_8px_24px_rgba(45,45,42,0.1),0_2px_6px_rgba(45,45,42,0.06)] text-stone-700 transition-all duration-200 hover:shadow-[0_12px_32px_rgba(45,45,42,0.14)] active:scale-[0.97]"
           >
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center overflow-hidden ring-2 ring-amber-300/50">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-50 to-amber-100 flex items-center justify-center overflow-hidden ring-2 ring-amber-400/70">
               <span className="text-sm">👩</span>
             </div>
             <span className="text-sm font-medium text-stone-600">Hi, need help?</span>
@@ -756,11 +758,11 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
         )}
 
         {state === "card" && (
-          <div className="w-[280px] rounded-[16px] bg-white border border-[#E5E4E0] shadow-[0_20px_56px_rgba(45,45,42,0.12),0_8px_20px_rgba(45,45,42,0.06)] overflow-hidden">
+          <div className="w-[280px] rounded-[16px] bg-white border border-[#E5E4E0] shadow-[0_24px_64px_rgba(120,100,60,0.12),0_8px_24px_rgba(45,45,42,0.08)] overflow-hidden">
             <div className="p-4">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center overflow-hidden ring-2 ring-amber-300/50">
+                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-50 to-amber-100 flex items-center justify-center overflow-hidden ring-2 ring-amber-400/70">
                     <span className="text-lg">👩</span>
                   </div>
                   <div>
@@ -802,7 +804,7 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
         )}
 
         {state === "panel" && (
-          <div className="w-[380px] h-[500px] rounded-[16px] bg-white border border-[#E5E4E0] shadow-[0_24px_64px_rgba(45,45,42,0.14),0_8px_24px_rgba(45,45,42,0.06)] overflow-hidden flex flex-col">
+          <div className="w-[380px] h-[500px] rounded-[16px] bg-white border border-[#E5E4E0] shadow-[0_32px_72px_rgba(120,100,60,0.14),0_8px_24px_rgba(45,45,42,0.08)] overflow-hidden flex flex-col">
             {/* Header */}
             <div className="px-4 py-3 flex items-center justify-between border-b border-[#E5E4E0] bg-[#FAFAF8]">
               <div className="flex items-center gap-3">
@@ -812,7 +814,7 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
                 <span className="text-xs text-stone-400 font-medium">✦ Solveo</span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center overflow-hidden ring-2 ring-amber-300/50">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-50 to-amber-100 flex items-center justify-center overflow-hidden ring-2 ring-amber-400/70">
                   <span className="text-lg">👩</span>
                 </div>
                 <div>
@@ -869,7 +871,7 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
                   <div className="max-w-[75%]">
                     <div className={`px-3 py-2 rounded-2xl text-sm ${
                       msg.role === "user"
-                        ? "rounded-tr-sm bg-amber-50 border border-amber-200/80 text-stone-800"
+                        ? "rounded-tr-sm bg-gradient-to-r from-amber-50 to-amber-100/80 border border-amber-200/60 text-stone-800"
                         : "rounded-tl-sm bg-[#FAFAF8] border border-[#E5E4E0] text-stone-700"
                     }`}>
                       {msg.content}
@@ -924,7 +926,8 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
                 <button
                   type="submit"
                   disabled={!input.trim() || loading}
-                  className="p-2 rounded-lg bg-amber-500 text-white shadow-sm hover:bg-amber-600 transition-all active:scale-[0.95] disabled:opacity-50"
+                  className="p-2 rounded-lg text-white transition-all active:scale-[0.95] disabled:opacity-50"
+                  style={{ background: 'linear-gradient(135deg, #F59E0B, #D97706)', boxShadow: '0 2px 12px rgba(245,158,11,0.3)' }}
                 >
                   <Send className="w-4 h-4" />
                 </button>
@@ -947,7 +950,7 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
           className="w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
           style={{
             background: 'linear-gradient(135deg, #7C3AED, #A855F7, #EC4899)',
-            boxShadow: '0 6px 32px rgba(168, 85, 247, 0.6), 0 0 64px rgba(168, 85, 247, 0.3), 0 0 96px rgba(168, 85, 247, 0.1), inset 0 1px 0 rgba(255,255,255,0.3)',
+            boxShadow: '0 8px 40px rgba(168, 85, 247, 0.7), 0 0 80px rgba(168, 85, 247, 0.4), 0 0 120px rgba(168, 85, 247, 0.15), inset 0 1px 0 rgba(255,255,255,0.3)',
           }}
         >
           <MessageCircle className="w-6 h-6 text-white" />
@@ -982,9 +985,9 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
                   'linear-gradient(135deg, rgba(236,72,153,0.4), rgba(168,85,247,0.2))',
                 ];
                 const glows = [
-                  '0 0 12px rgba(168,85,247,0.15), inset 0 1px 0 rgba(168,85,247,0.1)',
-                  '0 0 12px rgba(16,185,129,0.15), inset 0 1px 0 rgba(16,185,129,0.1)',
-                  '0 0 12px rgba(236,72,153,0.15), inset 0 1px 0 rgba(236,72,153,0.1)',
+                  '0 0 16px rgba(168,85,247,0.25), inset 0 1px 0 rgba(168,85,247,0.15)',
+                  '0 0 16px rgba(16,185,129,0.25), inset 0 1px 0 rgba(16,185,129,0.15)',
+                  '0 0 16px rgba(236,72,153,0.25), inset 0 1px 0 rgba(236,72,153,0.15)',
                 ];
                 return (
                   <button
@@ -1019,8 +1022,8 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
                 Type your message...
               </button>
               <button className="p-1.5 rounded-md text-white" style={{
-                background: 'linear-gradient(135deg, #10B981, #06B6D4)',
-                boxShadow: '0 0 12px rgba(16, 185, 129, 0.3)',
+                background: 'linear-gradient(135deg, #7C3AED, #EC4899)',
+                boxShadow: '0 0 12px rgba(168, 85, 247, 0.3)',
               }}>
                 <Send className="w-3 h-3" />
               </button>
@@ -1130,12 +1133,12 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
                 <div className="max-w-[75%]">
                   <div className={`px-3 py-2 rounded-2xl text-sm ${msg.role === "user" ? "rounded-tr-sm text-white" : "rounded-tl-sm text-slate-200"}`}
                     style={msg.role === "user" ? {
-                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.9), rgba(6, 182, 212, 0.9))',
-                      border: '1px solid rgba(16, 185, 129, 0.3)',
-                      boxShadow: '0 2px 12px rgba(16, 185, 129, 0.2)',
+                      background: 'linear-gradient(135deg, #10B981, #06B6D4)',
+                      border: '1px solid rgba(16, 185, 129, 0.4)',
+                      boxShadow: '0 4px 16px rgba(16, 185, 129, 0.25)',
                     } : {
                       background: '#161B22',
-                      border: '1px solid rgba(255,255,255,0.05)',
+                      border: '1px solid rgba(255,255,255,0.08)',
                     }}
                   >
                     {msg.content}
@@ -1189,16 +1192,15 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
           {/* Input */}
           <div className="px-4 py-3" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
             <form onSubmit={(e) => { e.preventDefault(); sendMessage(input); }} className="flex items-center gap-2">
-              <div className="flex-1 rounded-lg overflow-hidden" style={{
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                background: '#161B22',
+              <div className="flex-1 rounded-lg overflow-hidden p-[1px]" style={{
+                background: 'linear-gradient(135deg, rgba(168,85,247,0.6), rgba(6,182,212,0.5), rgba(236,72,153,0.5))',
               }}>
                 <input
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Type your message..."
-                  className="w-full text-sm px-3 py-2 bg-transparent text-slate-200 placeholder:text-slate-600 focus:outline-none"
+                  className="w-full text-sm px-3 py-2 rounded-[7px] bg-[#0D1117] text-slate-200 placeholder:text-slate-600 focus:outline-none"
                   disabled={loading}
                 />
               </div>
@@ -1208,7 +1210,7 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
                 className="p-2 rounded-lg text-white transition-all disabled:opacity-50"
                 style={{
                   background: 'linear-gradient(135deg, #10B981, #06B6D4)',
-                  boxShadow: '0 0 16px rgba(16, 185, 129, 0.3)',
+                  boxShadow: '0 0 20px rgba(16, 185, 129, 0.4), 0 0 40px rgba(16, 185, 129, 0.15)',
                 }}
               >
                 <Send className="w-4 h-4" />
