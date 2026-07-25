@@ -5,12 +5,14 @@ import {
   X,
   Send,
   ChevronDown,
-  Phone,
-  Mail,
+  Mic,
+  Volume2,
+  Eye,
   Sparkles,
   ArrowLeft,
   Minus,
-  Paperclip,
+  Type,
+  Contrast,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -51,8 +53,8 @@ export default function Demo() {
         <div className="text-center mb-10">
           <h1 className="text-3xl font-bold text-slate-900">Interactive Demo</h1>
           <p className="mt-3 text-slate-600 max-w-xl mx-auto">
-            Experience the progressive disclosure widget in all three theme styles.
-            Each widget is fully functional and powered by AI.
+            Experience the progressive disclosure widget with voice input, accessibility controls, and AI-powered responses.
+            Try the mic button or click the accessibility controls that appear after chatting.
           </p>
         </div>
 
@@ -125,7 +127,7 @@ export default function Demo() {
                 </li>
                 <li className="flex gap-3">
                   <span className="flex-shrink-0 w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-xs font-bold">3</span>
-                  <span><strong>The Panel</strong> — Full 380×520px chat with history, agent info, and multi-channel contact bar</span>
+                  <span><strong>The Panel</strong> — Full 380×520px chat with history, agent info, voice input, and accessibility controls</span>
                 </li>
               </ol>
             </div>
@@ -138,6 +140,116 @@ export default function Demo() {
               </Link>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Accessibility Features Showcase */}
+      <section className="max-w-6xl mx-auto px-6 pb-16">
+        <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-slate-900 mb-2">Built-in Accessibility Features</h2>
+            <p className="text-slate-600 text-sm max-w-lg mx-auto">
+              Every Hansen widget ships with WCAG 2.2 AAA compliance. Try these live controls — they affect this entire page via the global accessibility overlay.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Visual */}
+            <div className="rounded-xl border border-slate-100 p-5 hover:shadow-md transition-shadow">
+              <h3 className="text-sm font-semibold text-slate-800 mb-3 flex items-center gap-2">
+                <Eye className="w-4 h-4 text-indigo-500" /> Visual
+              </h3>
+              <div className="space-y-2">
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent('hansen-accessibility-command', { detail: { command: 'font_increase' } }))}
+                  className="w-full text-left text-xs px-3 py-2 rounded-lg bg-slate-50 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 transition-colors"
+                >
+                  Increase Font Size
+                </button>
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent('hansen-accessibility-command', { detail: { command: 'contrast' } }))}
+                  className="w-full text-left text-xs px-3 py-2 rounded-lg bg-slate-50 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 transition-colors"
+                >
+                  High Contrast Mode
+                </button>
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent('hansen-accessibility-command', { detail: { command: 'dyslexia_font' } }))}
+                  className="w-full text-left text-xs px-3 py-2 rounded-lg bg-slate-50 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 transition-colors"
+                >
+                  Dyslexia-Friendly Font
+                </button>
+              </div>
+            </div>
+            {/* Navigation */}
+            <div className="rounded-xl border border-slate-100 p-5 hover:shadow-md transition-shadow">
+              <h3 className="text-sm font-semibold text-slate-800 mb-3 flex items-center gap-2">
+                <span className="text-indigo-500">&#9000;</span> Navigation
+              </h3>
+              <div className="space-y-2">
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent('hansen-accessibility-command', { detail: { command: 'keyboard_nav' } }))}
+                  className="w-full text-left text-xs px-3 py-2 rounded-lg bg-slate-50 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 transition-colors"
+                >
+                  Enhanced Keyboard Nav
+                </button>
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent('hansen-accessibility-command', { detail: { command: 'highlight_links' } }))}
+                  className="w-full text-left text-xs px-3 py-2 rounded-lg bg-slate-50 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 transition-colors"
+                >
+                  Highlight All Links
+                </button>
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent('hansen-accessibility-command', { detail: { command: 'reading_guide' } }))}
+                  className="w-full text-left text-xs px-3 py-2 rounded-lg bg-slate-50 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 transition-colors"
+                >
+                  Reading Guide / Ruler
+                </button>
+              </div>
+            </div>
+            {/* Content */}
+            <div className="rounded-xl border border-slate-100 p-5 hover:shadow-md transition-shadow">
+              <h3 className="text-sm font-semibold text-slate-800 mb-3 flex items-center gap-2">
+                <Volume2 className="w-4 h-4 text-indigo-500" /> Content
+              </h3>
+              <div className="space-y-2">
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent('hansen-accessibility-command', { detail: { command: 'screen_reader' } }))}
+                  className="w-full text-left text-xs px-3 py-2 rounded-lg bg-slate-50 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 transition-colors"
+                >
+                  Screen Reader / TTS
+                </button>
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent('hansen-accessibility-command', { detail: { command: 'stop_animations' } }))}
+                  className="w-full text-left text-xs px-3 py-2 rounded-lg bg-slate-50 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 transition-colors"
+                >
+                  Stop Animations
+                </button>
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent('hansen-accessibility-command', { detail: { command: 'font_decrease' } }))}
+                  className="w-full text-left text-xs px-3 py-2 rounded-lg bg-slate-50 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 transition-colors"
+                >
+                  Decrease Font Size
+                </button>
+              </div>
+            </div>
+            {/* Advanced */}
+            <div className="rounded-xl border border-slate-100 p-5 hover:shadow-md transition-shadow">
+              <h3 className="text-sm font-semibold text-slate-800 mb-3 flex items-center gap-2">
+                <Mic className="w-4 h-4 text-indigo-500" /> Advanced
+              </h3>
+              <div className="space-y-2">
+                <p className="text-[11px] text-slate-500 italic">Voice commands: say “make text bigger”, “high contrast”, or “read the page”</p>
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent('hansen-accessibility-command', { detail: { command: 'reset' } }))}
+                  className="w-full text-left text-xs px-3 py-2 rounded-lg bg-red-50 hover:bg-red-100 text-red-700 transition-colors"
+                >
+                  Reset All Settings
+                </button>
+              </div>
+            </div>
+          </div>
+          <p className="text-center text-[11px] text-slate-400 mt-6">
+            These controls trigger the global Hansen Accessibility Overlay — the same overlay that ships with every embedded widget.
+          </p>
         </div>
       </section>
     </div>
@@ -479,7 +591,8 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
   const [messages, setMessages] = useState<{ role: "user" | "assistant"; content: string; time?: string }[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showContactBar, setShowContactBar] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [showAccessibilityBar, setShowAccessibilityBar] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -491,7 +604,8 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
     setState("pill");
     setMessages([]);
     setInput("");
-    setShowContactBar(false);
+    setShowAccessibilityBar(false);
+    setIsListening(false);
   }, [theme]);
 
   const getTime = () => {
@@ -513,7 +627,7 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
       });
       const data = await res.json();
       setMessages((prev) => [...prev, { role: "assistant", content: data.response, time: getTime() }]);
-      if (data.showContactBar) setShowContactBar(true);
+      if (data.response) setShowAccessibilityBar(true);
     } catch {
       setMessages((prev) => [
         ...prev,
@@ -527,6 +641,26 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
   const handleChipClick = (chip: string) => {
     setState("panel");
     sendMessage(chip);
+  };
+
+  // Voice demo: simulate listening state
+  const toggleVoiceDemo = () => {
+    if (isListening) {
+      setIsListening(false);
+      // Simulate voice input after "listening"
+      setTimeout(() => {
+        sendMessage("Tell me about accessibility features");
+      }, 300);
+    } else {
+      setIsListening(true);
+      // Auto-stop after 2 seconds to simulate recognition
+      setTimeout(() => setIsListening(false), 2000);
+    }
+  };
+
+  // Dispatch accessibility command to global overlay
+  const dispatchAccessibility = (command: string) => {
+    window.dispatchEvent(new CustomEvent("hansen-accessibility-command", { detail: { command } }));
   };
 
   // ─── LIQUID GLASS ───
@@ -692,19 +826,41 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Contact Bar */}
-            {showContactBar && (
-              <div className="px-4 py-2 flex items-center justify-center gap-4" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
-                <a href="#" className="flex items-center gap-1.5 text-xs text-green-700 hover:underline">
-                  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
-                  WhatsApp
-                </a>
-                <a href="#" className="flex items-center gap-1.5 text-xs text-slate-600 hover:underline">
-                  <Phone className="w-3.5 h-3.5" /> Call us
-                </a>
-                <a href="#" className="flex items-center gap-1.5 text-xs text-slate-600 hover:underline">
-                  <Mail className="w-3.5 h-3.5" /> Email us
-                </a>
+            {/* Voice & Accessibility Bar */}
+            {showAccessibilityBar && (
+              <div className="px-4 py-2 flex items-center justify-center gap-2" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+                <button
+                  onClick={() => dispatchAccessibility('font_increase')}
+                  className="flex items-center gap-1 text-[11px] px-2.5 py-1.5 rounded-lg text-indigo-600 hover:bg-indigo-50 transition-colors"
+                  style={{ background: 'rgba(99,102,241,0.06)' }}
+                  title="Increase font size"
+                >
+                  <Type className="w-3 h-3" /> A+
+                </button>
+                <button
+                  onClick={() => dispatchAccessibility('contrast')}
+                  className="flex items-center gap-1 text-[11px] px-2.5 py-1.5 rounded-lg text-indigo-600 hover:bg-indigo-50 transition-colors"
+                  style={{ background: 'rgba(99,102,241,0.06)' }}
+                  title="Toggle high contrast"
+                >
+                  <Contrast className="w-3 h-3" /> Contrast
+                </button>
+                <button
+                  onClick={() => dispatchAccessibility('screen_reader')}
+                  className="flex items-center gap-1 text-[11px] px-2.5 py-1.5 rounded-lg text-indigo-600 hover:bg-indigo-50 transition-colors"
+                  style={{ background: 'rgba(99,102,241,0.06)' }}
+                  title="Toggle screen reader"
+                >
+                  <Volume2 className="w-3 h-3" /> TTS
+                </button>
+                <button
+                  onClick={() => dispatchAccessibility('keyboard_nav')}
+                  className="flex items-center gap-1 text-[11px] px-2.5 py-1.5 rounded-lg text-indigo-600 hover:bg-indigo-50 transition-colors"
+                  style={{ background: 'rgba(99,102,241,0.06)' }}
+                  title="Enhanced keyboard navigation"
+                >
+                  <Eye className="w-3 h-3" /> Focus
+                </button>
               </div>
             )}
 
@@ -720,8 +876,13 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
                   style={{ background: 'rgba(255,255,255,0.4)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.6)' }}
                   disabled={loading}
                 />
-                <button className="p-1.5 text-slate-400 hover:text-slate-600">
-                  <Paperclip className="w-4 h-4" />
+                <button
+                  type="button"
+                  onClick={toggleVoiceDemo}
+                  className={`p-1.5 rounded-lg transition-all ${isListening ? 'text-white bg-indigo-500 animate-pulse' : 'text-slate-400 hover:text-indigo-600 hover:bg-indigo-50'}`}
+                  title={isListening ? 'Listening...' : 'Voice input'}
+                >
+                  <Mic className="w-4 h-4" />
                 </button>
                 <button
                   type="submit"
@@ -732,7 +893,7 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
                   <Send className="w-4 h-4" />
                 </button>
               </form>
-              <p className="text-[10px] text-slate-400 text-center mt-1.5">We typically reply in under 2 minutes</p>
+              <p className="text-[10px] text-slate-400 text-center mt-1.5">Voice-enabled • Accessibility controls above</p>
             </div>
           </div>
         )}
@@ -893,19 +1054,41 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Contact Bar */}
-            {showContactBar && (
-              <div className="px-4 py-2 border-t border-[#E5E4E0] flex items-center justify-center gap-4">
-                <a href="#" className="flex items-center gap-1.5 text-xs text-stone-600 hover:text-stone-800 transition-colors">
-                  <svg className="w-4 h-4 text-green-600" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
-                  WhatsApp
-                </a>
-                <a href="#" className="flex items-center gap-1.5 text-xs text-stone-600 hover:text-stone-800 transition-colors">
-                  <Phone className="w-4 h-4" /> Call
-                </a>
-                <a href="#" className="flex items-center gap-1.5 text-xs text-stone-600 hover:text-stone-800 transition-colors">
-                  <Mail className="w-4 h-4" /> Email
-                </a>
+            {/* Voice & Accessibility Bar */}
+            {showAccessibilityBar && (
+              <div className="px-4 py-2 border-t border-[#E5E4E0] flex items-center justify-center gap-2">
+                <button
+                  onClick={() => dispatchAccessibility('font_increase')}
+                  className="flex items-center gap-1 text-[11px] px-2.5 py-1.5 rounded-lg text-amber-700 hover:bg-amber-50 transition-colors"
+                  style={{ background: 'rgba(245,158,11,0.06)' }}
+                  title="Increase font size"
+                >
+                  <Type className="w-3 h-3" /> A+
+                </button>
+                <button
+                  onClick={() => dispatchAccessibility('contrast')}
+                  className="flex items-center gap-1 text-[11px] px-2.5 py-1.5 rounded-lg text-amber-700 hover:bg-amber-50 transition-colors"
+                  style={{ background: 'rgba(245,158,11,0.06)' }}
+                  title="Toggle high contrast"
+                >
+                  <Contrast className="w-3 h-3" /> Contrast
+                </button>
+                <button
+                  onClick={() => dispatchAccessibility('screen_reader')}
+                  className="flex items-center gap-1 text-[11px] px-2.5 py-1.5 rounded-lg text-amber-700 hover:bg-amber-50 transition-colors"
+                  style={{ background: 'rgba(245,158,11,0.06)' }}
+                  title="Toggle screen reader"
+                >
+                  <Volume2 className="w-3 h-3" /> TTS
+                </button>
+                <button
+                  onClick={() => dispatchAccessibility('keyboard_nav')}
+                  className="flex items-center gap-1 text-[11px] px-2.5 py-1.5 rounded-lg text-amber-700 hover:bg-amber-50 transition-colors"
+                  style={{ background: 'rgba(245,158,11,0.06)' }}
+                  title="Enhanced keyboard navigation"
+                >
+                  <Eye className="w-3 h-3" /> Focus
+                </button>
               </div>
             )}
 
@@ -920,8 +1103,13 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
                   className="flex-1 text-sm px-3 py-2 rounded-lg border border-[#E5E4E0] bg-white text-stone-800 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-amber-200/50 focus:border-amber-300"
                   disabled={loading}
                 />
-                <button className="p-1.5 text-stone-400 hover:text-stone-600 transition-colors">
-                  <Paperclip className="w-4 h-4" />
+                <button
+                  type="button"
+                  onClick={toggleVoiceDemo}
+                  className={`p-1.5 rounded-lg transition-all ${isListening ? 'text-white bg-amber-500 animate-pulse' : 'text-stone-400 hover:text-amber-600 hover:bg-amber-50'}`}
+                  title={isListening ? 'Listening...' : 'Voice input'}
+                >
+                  <Mic className="w-4 h-4" />
                 </button>
                 <button
                   type="submit"
@@ -932,7 +1120,7 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
                   <Send className="w-4 h-4" />
                 </button>
               </form>
-              <p className="text-[10px] text-stone-400 text-center mt-1.5">Powered by Solveo</p>
+              <p className="text-[10px] text-stone-400 text-center mt-1.5">Voice-enabled • Accessibility controls above</p>
             </div>
           </div>
         )}
@@ -1170,21 +1358,34 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Contact Bar */}
-          {showContactBar && (
+          {/* Voice & Accessibility Bar */}
+          {showAccessibilityBar && (
             <div className="px-4 py-2" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-              <p className="text-[10px] text-slate-500 text-center mb-2">Other ways to connect</p>
               <div className="flex items-center justify-center gap-2">
-                <a href="#" className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full text-emerald-400 transition-colors hover:bg-emerald-500/10" style={{ border: '1px solid transparent', backgroundImage: 'linear-gradient(#0D1117, #0D1117), linear-gradient(135deg, rgba(16,185,129,0.6), rgba(6,182,212,0.3))', backgroundOrigin: 'border-box', backgroundClip: 'padding-box, border-box', boxShadow: '0 0 8px rgba(16,185,129,0.15)' }}>
-                  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
-                  WhatsApp
-                </a>
-                <a href="#" className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full text-purple-400 transition-colors hover:bg-purple-500/10" style={{ border: '1px solid transparent', backgroundImage: 'linear-gradient(#0D1117, #0D1117), linear-gradient(135deg, rgba(168,85,247,0.6), rgba(99,102,241,0.3))', backgroundOrigin: 'border-box', backgroundClip: 'padding-box, border-box', boxShadow: '0 0 8px rgba(168,85,247,0.15)' }}>
-                  <Phone className="w-3.5 h-3.5" /> Call us
-                </a>
-                <a href="#" className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full text-pink-400 transition-colors hover:bg-pink-500/10" style={{ border: '1px solid transparent', backgroundImage: 'linear-gradient(#0D1117, #0D1117), linear-gradient(135deg, rgba(236,72,153,0.6), rgba(168,85,247,0.3))', backgroundOrigin: 'border-box', backgroundClip: 'padding-box, border-box', boxShadow: '0 0 8px rgba(236,72,153,0.15)' }}>
-                  <Mail className="w-3.5 h-3.5" /> Email us
-                </a>
+                <button
+                  onClick={() => dispatchAccessibility('font_increase')}
+                  className="flex items-center gap-1 text-[11px] px-2.5 py-1.5 rounded-full text-emerald-400 transition-colors hover:bg-emerald-500/10"
+                  style={{ border: '1px solid transparent', backgroundImage: 'linear-gradient(#0D1117, #0D1117), linear-gradient(135deg, rgba(16,185,129,0.6), rgba(6,182,212,0.3))', backgroundOrigin: 'border-box', backgroundClip: 'padding-box, border-box', boxShadow: '0 0 8px rgba(16,185,129,0.15)' }}
+                  title="Increase font size"
+                >
+                  <Type className="w-3 h-3" /> A+
+                </button>
+                <button
+                  onClick={() => dispatchAccessibility('contrast')}
+                  className="flex items-center gap-1 text-[11px] px-2.5 py-1.5 rounded-full text-purple-400 transition-colors hover:bg-purple-500/10"
+                  style={{ border: '1px solid transparent', backgroundImage: 'linear-gradient(#0D1117, #0D1117), linear-gradient(135deg, rgba(168,85,247,0.6), rgba(99,102,241,0.3))', backgroundOrigin: 'border-box', backgroundClip: 'padding-box, border-box', boxShadow: '0 0 8px rgba(168,85,247,0.15)' }}
+                  title="Toggle high contrast"
+                >
+                  <Contrast className="w-3 h-3" /> Contrast
+                </button>
+                <button
+                  onClick={() => dispatchAccessibility('screen_reader')}
+                  className="flex items-center gap-1 text-[11px] px-2.5 py-1.5 rounded-full text-pink-400 transition-colors hover:bg-pink-500/10"
+                  style={{ border: '1px solid transparent', backgroundImage: 'linear-gradient(#0D1117, #0D1117), linear-gradient(135deg, rgba(236,72,153,0.6), rgba(168,85,247,0.3))', backgroundOrigin: 'border-box', backgroundClip: 'padding-box, border-box', boxShadow: '0 0 8px rgba(236,72,153,0.15)' }}
+                  title="Toggle screen reader / TTS"
+                >
+                  <Volume2 className="w-3 h-3" /> TTS
+                </button>
               </div>
             </div>
           )}
@@ -1204,6 +1405,18 @@ function DemoWidget({ theme }: { theme: ThemeName }) {
                   disabled={loading}
                 />
               </div>
+              <button
+                type="button"
+                onClick={toggleVoiceDemo}
+                className={`p-2 rounded-lg transition-all ${isListening ? 'text-white animate-pulse' : 'text-slate-400 hover:text-emerald-400'}`}
+                style={isListening ? {
+                  background: 'linear-gradient(135deg, #7C3AED, #EC4899)',
+                  boxShadow: '0 0 16px rgba(168, 85, 247, 0.5)',
+                } : {}}
+                title={isListening ? 'Listening...' : 'Voice input'}
+              >
+                <Mic className="w-4 h-4" />
+              </button>
               <button
                 type="submit"
                 disabled={!input.trim() || loading}

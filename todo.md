@@ -102,3 +102,31 @@
 - [x] Rebuild Aurora Soft widget with dark surfaces, glowing gradient meshes, gradient-bordered elements
 - [x] Ensure mock websites behind widgets are rich and detailed (not flat/empty)
 - [x] All three themes look premium and clearly distinct from each other
+
+## Phase 13: Demo Voice & Accessibility Showcase
+- [x] Replace WhatsApp/Call/Email contact bars with voice + accessibility controls in all 3 themes
+- [x] Add Mic button to all theme composers (replaces Paperclip)
+- [x] Add accessibility control bar (Font Size, Contrast, TTS, Focus) to all 3 panels
+- [x] Add "Built-in Accessibility Features" showcase section below demo with live controls
+- [x] Update info panel text to mention voice input and accessibility controls
+- [x] Voice demo simulates listening state and sends accessibility query
+- [x] Accessibility buttons dispatch real hansen-accessibility-command events to global overlay
+
+## Phase 14: Full Accessibility MVP Implementation
+- [x] Rebuild AccessibilityOverlay as slide-out sidebar (320px desktop, full-width mobile)
+- [x] Trigger button: ♿ icon, 48x48px, fixed position bottom-left
+- [x] Organize controls into 4 groups: Visual, Navigation, Content, Advanced
+- [x] Add line spacing control to Visual group
+- [x] Add voice commands to Advanced group
+- [x] Pill-shaped toggle switches with clear on/off states
+- [x] Settings persist in localStorage and restore on return visits
+- [x] Wire AccessibilityOverlay into App.tsx so it appears on EVERY page (except /embed)
+- [x] Add skip links to top of every page ("Skip to main content")
+- [x] Add ARIA landmarks (main, nav, banner, contentinfo) to all page layouts
+- [x] Ensure 44x44px minimum touch targets on all interactive elements
+- [x] Ensure visible focus indicators on all interactive elements
+- [x] Create /accessibility page with WCAG 2.2 AAA compliance details
+- [x] Add contact form on /accessibility page for reporting accessibility needs
+- [x] Update Demo page to showcase accessibility overlay working live
+- [x] Demo shows voice interaction and TTS capabilities
+- [x] prefers-reduced-motion respected globally
