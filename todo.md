@@ -130,3 +130,22 @@
 - [x] Update Demo page to showcase accessibility overlay working live
 - [x] Demo shows voice interaction and TTS capabilities
 - [x] prefers-reduced-motion respected globally
+
+## Phase 15: Accessibility Overlay — Liquid Glass Styling + Competitive Features + Product/Contact
+- [x] Restyle trigger button with Liquid Glass (frosted glass, gradient glow, backdrop-blur)
+- [x] Restyle sidebar panel with Liquid Glass (translucent bg, iridescent border, glass morphism)
+- [x] Restyle ControlGroup headers and PillToggle switches with glass morphism
+- [x] Add Color Blindness Profiles (Protanopia, Deuteranopia, Tritanopia correction via SVG filters)
+- [x] Add Saturation Control slider
+- [x] Add Text Spacing controls (letter-spacing, word-spacing)
+- [x] Add Dark Mode / Invert Colors toggle
+- [x] Add Page Structure Navigator (auto-detect headings, click-to-jump outline)
+- [x] Add Reading Mask / Line Focus mode (dim everything except current paragraph)
+- [x] Add Hide Images toggle
+- [x] Add Tooltips on Elements toggle (show title/alt/aria-label on hover)
+- [x] Add Content Magnifier (hover-to-zoom text)
+- [x] Add Dictionary Lookup (double-click word for definition)
+- [x] Add "Product Tour" section with links to key features
+- [x] Add "Info & Pricing Plans" quick comparison section
+- [x] Add "Contact Us" section with WhatsApp, Call, and Email links
+- [x] All sections follow Liquid Glass visual language
