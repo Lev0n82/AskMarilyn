@@ -1,0 +1,12 @@
+Bug Investigation Notes - Phase 72
+
+1. GRACE Module 4 broken image:
+   - The page loads at https://learnsdlc.org/grace-academy/module-4
+   - There IS an image at the top showing "EDITORIAL ILLUSTRATION" with CLICK, TYPE, VERIFY, NAVIGATE
+   - This image appears to be loading correctly in the current deployment
+   - The user may have seen a broken image earlier that has since been fixed by deployment
+   - OR the image URL may be intermittently failing
+   - Need to check the image source URL in the component code
+
+2. CMake module 1 progress save failure:
+   - Need to check the progress save endpoint and error logs

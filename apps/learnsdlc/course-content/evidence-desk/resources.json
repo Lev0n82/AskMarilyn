@@ -1,0 +1,617 @@
+{
+  "assets": [
+    {
+      "name": "course_01.png",
+      "url": "/manus-storage/course_01_821b0735.png",
+      "kind": "visual"
+    },
+    {
+      "name": "course_02.png",
+      "url": "/manus-storage/course_02_fced373d.png",
+      "kind": "visual"
+    },
+    {
+      "name": "course_03.png",
+      "url": "/manus-storage/course_03_483d24cc.png",
+      "kind": "visual"
+    },
+    {
+      "name": "course_04.png",
+      "url": "/manus-storage/course_04_3ac012de.png",
+      "kind": "visual"
+    },
+    {
+      "name": "course_05.png",
+      "url": "/manus-storage/course_05_9862ff95.png",
+      "kind": "visual"
+    },
+    {
+      "name": "course_06.png",
+      "url": "/manus-storage/course_06_26a7f49d.png",
+      "kind": "visual"
+    },
+    {
+      "name": "course_07.png",
+      "url": "/manus-storage/course_07_0aed3658.png",
+      "kind": "visual"
+    },
+    {
+      "name": "course_08.png",
+      "url": "/manus-storage/course_08_21c76e06.png",
+      "kind": "visual"
+    },
+    {
+      "name": "course_09.png",
+      "url": "/manus-storage/course_09_330428b1.png",
+      "kind": "visual"
+    },
+    {
+      "name": "course_10.png",
+      "url": "/manus-storage/course_10_e192a07e.png",
+      "kind": "visual"
+    },
+    {
+      "name": "course_11.png",
+      "url": "/manus-storage/course_11_ced8b80a.png",
+      "kind": "visual"
+    },
+    {
+      "name": "course_12.png",
+      "url": "/manus-storage/course_12_33cc3c31.png",
+      "kind": "visual"
+    },
+    {
+      "name": "course_13.png",
+      "url": "/manus-storage/course_13_703766e0.png",
+      "kind": "visual"
+    },
+    {
+      "name": "course_14.png",
+      "url": "/manus-storage/course_14_4200f2c5.png",
+      "kind": "visual"
+    },
+    {
+      "name": "learning_sequence.png",
+      "url": "/manus-storage/learning_sequence_0325d623.png",
+      "kind": "visual"
+    },
+    {
+      "name": "peer_review_record.csv",
+      "url": "/manus-storage/peer_review_record_b410f9db.csv",
+      "kind": "template"
+    },
+    {
+      "name": "qa_matrices_evidence.xlsx",
+      "url": "/manus-storage/qa_matrices_evidence_9a38571e.xlsx",
+      "kind": "template"
+    },
+    {
+      "name": "qa_matrices_governance.xlsx",
+      "url": "/manus-storage/qa_matrices_governance_369cc729.xlsx",
+      "kind": "template"
+    },
+    {
+      "name": "qa_matrices_quality.xlsx",
+      "url": "/manus-storage/qa_matrices_quality_03a197b8.xlsx",
+      "kind": "template"
+    },
+    {
+      "name": "retrieval_practice_tracker.csv",
+      "url": "/manus-storage/retrieval_practice_tracker_ec75c6ef.csv",
+      "kind": "template"
+    },
+    {
+      "name": "role_rotation_log.csv",
+      "url": "/manus-storage/role_rotation_log_652411bd.csv",
+      "kind": "template"
+    }
+  ],
+  "matrices": [
+    {
+      "id": "M01",
+      "name": "Governance RACI",
+      "group": "governance",
+      "courses": [
+        3
+      ],
+      "grain": "One governed decision or QA activity; RACI roles contain R/A/C/I or R/A.",
+      "columns": [
+        "ActivityId",
+        "Activity",
+        "QALead",
+        "EngineeringLead",
+        "ProductOwner",
+        "ReleaseOwner",
+        "SecurityOwner",
+        "EvidenceSource",
+        "ReviewDate",
+        "AccountabilityCheck"
+      ],
+      "note": "Assign exactly one accountable role, identify responsible execution and retain the approval evidence. A role assignment is not proof a control operated.",
+      "workbook": "qa_matrices_governance.xlsx",
+      "sheet": "Governance RACI"
+    },
+    {
+      "id": "M02",
+      "name": "Stakeholder Decision",
+      "group": "governance",
+      "courses": [
+        1,
+        2,
+        4
+      ],
+      "grain": "One stakeholder information need and decision.",
+      "columns": [
+        "NeedId",
+        "Audience",
+        "Decision",
+        "AffectedGroup",
+        "ActionOwner",
+        "EvidenceNeeded",
+        "CommunicationForm",
+        "AccessNeed",
+        "CounterEvidence",
+        "ReviewDate"
+      ],
+      "note": "A dashboard request is not a decision. Include affected users and accessible information needs.",
+      "workbook": "qa_matrices_governance.xlsx",
+      "sheet": "Stakeholder Decision"
+    },
+    {
+      "id": "M03",
+      "name": "Risk Control",
+      "group": "governance",
+      "courses": [
+        3,
+        7
+      ],
+      "grain": "One risk objective and control relationship; repeated objectives are normalized before weighting.",
+      "columns": [
+        "RiskId",
+        "RiskStatement",
+        "Impact",
+        "Likelihood",
+        "LocalPriority",
+        "Control",
+        "RequirementId",
+        "TestId",
+        "Owner",
+        "ResidualRisk",
+        "EvidenceStatus",
+        "EvidenceRef"
+      ],
+      "note": "Impact and likelihood are local ordinal 1-5 scales. Their product is a local prioritization aid, not a probability, expected loss or ISO score.",
+      "workbook": "qa_matrices_governance.xlsx",
+      "sheet": "Risk Control"
+    },
+    {
+      "id": "M04",
+      "name": "Metric Contract",
+      "group": "governance",
+      "courses": [
+        4,
+        9,
+        11,
+        13
+      ],
+      "grain": "One selected measure for one declared decision/cohort.",
+      "columns": [
+        "MetricId",
+        "Domain",
+        "MetricName",
+        "InformationNeed",
+        "FormulaDefinition",
+        "GrainCohort",
+        "Numerator",
+        "Denominator",
+        "PeriodUTC",
+        "Exclusions",
+        "Owner",
+        "ThresholdRationale",
+        "ReviewCadence",
+        "Availability",
+        "EvidenceStatus",
+        "SourceRef",
+        "Limitations"
+      ],
+      "note": "Select measures from the 60-measure register; complete a local contract before publishing. Distinguish potential source availability from evidence actually measured.",
+      "workbook": "qa_matrices_governance.xlsx",
+      "sheet": "Metric Contract"
+    },
+    {
+      "id": "M05",
+      "name": "Source Capability",
+      "group": "governance",
+      "courses": [
+        5,
+        10
+      ],
+      "grain": "One validated endpoint or supplementary source and reporting purpose.",
+      "columns": [
+        "SourceId",
+        "Purpose",
+        "SourceType",
+        "EndpointTemplate",
+        "ApiVersion",
+        "EntityGrain",
+        "MetadataChecked",
+        "PagingMethod",
+        "PermissionDecision",
+        "RetentionWindow",
+        "EvidenceStatus",
+        "EvidenceRef"
+      ],
+      "note": "Never store credentials. Use endpoint metadata and documented operation-specific paging. A successful request does not prove completeness.",
+      "workbook": "qa_matrices_governance.xlsx",
+      "sheet": "Source Capability"
+    },
+    {
+      "id": "M06",
+      "name": "Field Lineage",
+      "group": "governance",
+      "courses": [
+        5,
+        6,
+        11
+      ],
+      "grain": "One transformed field with source-to-target rules.",
+      "columns": [
+        "MappingId",
+        "SourceId",
+        "SourceEntity",
+        "SourceField",
+        "TargetTable",
+        "TargetField",
+        "TargetGrain",
+        "JoinKey",
+        "TransformRule",
+        "UTCOrCalendar",
+        "PrivacyClass",
+        "Owner",
+        "EvidenceRef"
+      ],
+      "note": "Custom fields, identifiers, history and clock conventions must be explicit. Current links cannot establish historical traceability.",
+      "workbook": "qa_matrices_governance.xlsx",
+      "sheet": "Field Lineage"
+    },
+    {
+      "id": "M07",
+      "name": "State Transitions",
+      "group": "evidence",
+      "courses": [
+        6,
+        8,
+        9
+      ],
+      "grain": "One local workflow state mapping valid during a specified interval.",
+      "columns": [
+        "MappingId",
+        "Process",
+        "WorkItemType",
+        "LocalState",
+        "StateCategory",
+        "EffectiveFromUTC",
+        "EffectiveToUTC",
+        "FirstActiveRule",
+        "FinalClosureRule",
+        "ReopenRule",
+        "Owner",
+        "EvidenceRef"
+      ],
+      "note": "Categories: Proposed, Active, Completed, Removed. Match actual organization semantics; do not assume Resolved equals final closure.",
+      "workbook": "qa_matrices_evidence.xlsx",
+      "sheet": "State Transitions"
+    },
+    {
+      "id": "M08",
+      "name": "Extract Reconcile",
+      "group": "evidence",
+      "courses": [
+        5,
+        6,
+        11
+      ],
+      "grain": "One extraction partition/page group with controlled-source comparison.",
+      "columns": [
+        "BatchId",
+        "SourceId",
+        "WindowStartUTC",
+        "WindowEndUTC",
+        "PageCount",
+        "SourceExpectedRows",
+        "ExtractRows",
+        "DuplicateKeys",
+        "MissingKeys",
+        "ReconcileStatus",
+        "QueryHash",
+        "EvidenceRef"
+      ],
+      "note": "Expected counts must come from an authoritative controlled source at the same grain/cohort. If unknown, leave counts blank and status Not Measured.",
+      "workbook": "qa_matrices_evidence.xlsx",
+      "sheet": "Extract Reconcile"
+    },
+    {
+      "id": "M09",
+      "name": "Requirements Test",
+      "group": "evidence",
+      "courses": [
+        6,
+        7,
+        10
+      ],
+      "grain": "One requirement-test relationship per frozen release scope; denominator is distinct scoped requirements including unlinked requirements.",
+      "columns": [
+        "RequirementId",
+        "ReleaseId",
+        "QualityDomain",
+        "RiskId",
+        "TestId",
+        "ConfigurationId",
+        "BuildId",
+        "ResultId",
+        "Outcome",
+        "EvidenceStatus",
+        "EvidenceRef",
+        "RequirementOwner"
+      ],
+      "note": "Preserve unlinked requirements as rows with blank test/result keys and Not Measured. Bridge rows are not distinct requirements; a linked failing test is evidence but not readiness.",
+      "workbook": "qa_matrices_evidence.xlsx",
+      "sheet": "Requirements Test"
+    },
+    {
+      "id": "M10",
+      "name": "Test Configuration",
+      "group": "evidence",
+      "courses": [
+        7
+      ],
+      "grain": "One planned test-point/result-attempt relationship; point and attempt keys are distinct.",
+      "columns": [
+        "PlannedPointId",
+        "TestId",
+        "SuiteId",
+        "ConfigurationId",
+        "BuildId",
+        "RunId",
+        "ResultId",
+        "AttemptNumber",
+        "CompletedUTC",
+        "Outcome",
+        "InScope",
+        "EvidenceStatus",
+        "EvidenceRef"
+      ],
+      "note": "Retain retries. Latest valid acceptance result requires deterministic ordering per test/configuration/build; never select across builds silently.",
+      "workbook": "qa_matrices_evidence.xlsx",
+      "sheet": "Test Configuration"
+    },
+    {
+      "id": "M11",
+      "name": "Defect Cohort",
+      "group": "evidence",
+      "courses": [
+        8
+      ],
+      "grain": "One accepted nonduplicate defect with bounded release/follow-up context.",
+      "columns": [
+        "DefectId",
+        "ReleaseId",
+        "AcceptedReportUTC",
+        "ReleaseUTC",
+        "FirstDetectionUTC",
+        "FinalClosureUTC",
+        "ObservationUTC",
+        "Severity",
+        "DuplicateDisposition",
+        "ReopenEvents",
+        "FollowupDays",
+        "MaturityStatus",
+        "EvidenceStatus",
+        "EvidenceRef"
+      ],
+      "note": "Completed durations include reopen intervals. Open items are censored at observation. A 30-day mature cohort is a teaching convention, not an ISO target.",
+      "workbook": "qa_matrices_evidence.xlsx",
+      "sheet": "Defect Cohort"
+    },
+    {
+      "id": "M12",
+      "name": "Deploy Incident",
+      "group": "evidence",
+      "courses": [
+        9
+      ],
+      "grain": "One deployment-commit-incident relationship; logical deployments and incidents require separate distinct keys.",
+      "columns": [
+        "LogicalDeployId",
+        "Service",
+        "Environment",
+        "AttemptId",
+        "CommitId",
+        "CommitUTC",
+        "ProductionUTC",
+        "IncidentId",
+        "ImpairmentUTC",
+        "RestoredUTC",
+        "Intervention",
+        "IncidentCausedUnplanned",
+        "EvidenceStatus",
+        "EvidenceRef"
+      ],
+      "note": "Keep all denominator deployment events, including rows with no incident. Blank incident plus complete observation can mean none; missing linkage is unknown. Never count bridge rows as deployments.",
+      "workbook": "qa_matrices_evidence.xlsx",
+      "sheet": "Deploy Incident"
+    },
+    {
+      "id": "M13",
+      "name": "Quality Evidence",
+      "group": "quality",
+      "courses": [
+        10,
+        13
+      ],
+      "grain": "One high-level quality domain and approved evidence requirement.",
+      "columns": [
+        "DomainId",
+        "Model",
+        "Characteristic",
+        "Applicability",
+        "InformationNeed",
+        "MetricId",
+        "Method",
+        "EvidenceSource",
+        "EvidenceStatus",
+        "EvidenceAdequacy",
+        "Owner",
+        "ReviewDate",
+        "EvidenceRef",
+        "GapAction"
+      ],
+      "note": "Preseeded nine product-quality and three quality-in-use domains. Availability is not adequacy. Do not infer safety, user benefits or security from pipeline success.",
+      "workbook": "qa_matrices_quality.xlsx",
+      "sheet": "Quality Evidence"
+    },
+    {
+      "id": "M14",
+      "name": "Compatibility Variants",
+      "group": "quality",
+      "courses": [
+        10
+      ],
+      "grain": "One required compatibility/configuration/install/replace/scaling combination.",
+      "columns": [
+        "CombinationId",
+        "Characteristic",
+        "ProductVersion",
+        "ClientVersion",
+        "Protocol",
+        "Environment",
+        "Workload",
+        "RequirementId",
+        "TestId",
+        "Outcome",
+        "EvidenceStatus",
+        "EvidenceRef",
+        "Owner"
+      ],
+      "note": "Freeze the required matrix before calculating coverage. Missing tests remain uncovered; identify applicability and unsupported variants.",
+      "workbook": "qa_matrices_quality.xlsx",
+      "sheet": "Compatibility Variants"
+    },
+    {
+      "id": "M15",
+      "name": "Threat Hazard",
+      "group": "quality",
+      "courses": [
+        3,
+        10
+      ],
+      "grain": "One threat or hazard-control objective and reviewed evidence chain.",
+      "columns": [
+        "ObjectiveId",
+        "Type",
+        "ThreatOrHazard",
+        "Impact",
+        "Control",
+        "RequirementId",
+        "TestId",
+        "WitnessedResult",
+        "ResidualRisk",
+        "EvidenceStatus",
+        "Owner",
+        "Approver",
+        "EvidenceRef"
+      ],
+      "note": "Not a safety case or complete threat model. Qualified owners approve residual risk; a link or green pipeline is insufficient.",
+      "workbook": "qa_matrices_quality.xlsx",
+      "sheet": "Threat Hazard"
+    },
+    {
+      "id": "M16",
+      "name": "Accessible Review",
+      "group": "quality",
+      "courses": [
+        4,
+        10,
+        13
+      ],
+      "grain": "One report interaction or user-task accessibility check.",
+      "columns": [
+        "CheckId",
+        "Artifact",
+        "UserTask",
+        "AccessNeed",
+        "TestMethod",
+        "ExpectedBehavior",
+        "ObservedBehavior",
+        "Finding",
+        "EvidenceStatus",
+        "Owner",
+        "EvidenceRef",
+        "Remediation"
+      ],
+      "note": "Keyboard, focus, noncolor meaning, text summary, tabular export, screen-reader checks, reduced motion and sound preferences need evidence. Automated success alone is not conformance.",
+      "workbook": "qa_matrices_quality.xlsx",
+      "sheet": "Accessible Review"
+    },
+    {
+      "id": "M17",
+      "name": "Chart Decision",
+      "group": "quality",
+      "courses": [
+        1,
+        2,
+        12,
+        13
+      ],
+      "grain": "One message/evidence beat and visual-to-decision mapping.",
+      "columns": [
+        "VisualId",
+        "Audience",
+        "Decision",
+        "Claim",
+        "MetricId",
+        "MatrixId",
+        "Comparison",
+        "VisualForm",
+        "FilterScope",
+        "DenominatorRule",
+        "CounterEvidence",
+        "EvidenceStatus",
+        "SourceRef",
+        "ActionOwner"
+      ],
+      "note": "Keep denominators stable under filters. Label source, scope, uncertainty and Not Measured states. Statistical control limits are not ISO targets.",
+      "workbook": "qa_matrices_quality.xlsx",
+      "sheet": "Chart Decision"
+    },
+    {
+      "id": "M18",
+      "name": "Improvement Experiment",
+      "group": "quality",
+      "courses": [
+        3,
+        14
+      ],
+      "grain": "One predeclared improvement intervention and follow-up rule.",
+      "columns": [
+        "ExperimentId",
+        "Decision",
+        "Owner",
+        "BaselineCohort",
+        "BaselineSource",
+        "Intervention",
+        "SuccessMeasureId",
+        "SuccessCriterion",
+        "Guardrail",
+        "StopRule",
+        "ReviewDate",
+        "EvidenceStatus",
+        "OutcomeEvidence",
+        "Confounders"
+      ],
+      "note": "Design the 30-day study before acting. An improvement after an intervention does not alone demonstrate causation; no invented outcomes.",
+      "workbook": "qa_matrices_quality.xlsx",
+      "sheet": "Improvement Experiment"
+    }
+  ]
+}
