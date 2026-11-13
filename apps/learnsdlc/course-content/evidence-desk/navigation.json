@@ -1,0 +1,258 @@
+[
+  {
+    "id": "C01",
+    "title": "Welcome: Why Visualize QA Evidence?",
+    "topics": [
+      {
+        "id": "1.1",
+        "title": "Pattern, not paint"
+      },
+      {
+        "id": "1.2",
+        "title": "The insight pathway"
+      }
+    ]
+  },
+  {
+    "id": "C02",
+    "title": "Why Tell QA Stories?",
+    "topics": [
+      {
+        "id": "2.1",
+        "title": "A decision-ready argument"
+      },
+      {
+        "id": "2.2",
+        "title": "Follow the evidence"
+      }
+    ]
+  },
+  {
+    "id": "C03",
+    "title": "The Business: QA Governance and Risk",
+    "topics": [
+      {
+        "id": "3.1",
+        "title": "Problem, Goal, Action, Impact"
+      },
+      {
+        "id": "3.2",
+        "title": "QA governance, not just testing"
+      }
+    ]
+  },
+  {
+    "id": "C04",
+    "title": "The Audience: Measurement Contracts",
+    "topics": [
+      {
+        "id": "4.1",
+        "title": "Audience and affected people"
+      },
+      {
+        "id": "4.2",
+        "title": "Selecting measures through 15939"
+      },
+      {
+        "id": "4.3",
+        "title": "The measure contract"
+      }
+    ]
+  },
+  {
+    "id": "C05",
+    "title": "The Data: Authenticate and Query Azure",
+    "topics": [
+      {
+        "id": "5.1",
+        "title": "Access and source selection"
+      },
+      {
+        "id": "5.2",
+        "title": "Verified endpoint contract"
+      },
+      {
+        "id": "5.3",
+        "title": "Complete extraction"
+      }
+    ]
+  },
+  {
+    "id": "C06",
+    "title": "The Data: Model History Before Measures",
+    "topics": [
+      {
+        "id": "6.1",
+        "title": "Facts, dimensions, bridges"
+      },
+      {
+        "id": "6.2",
+        "title": "Time and process semantics"
+      },
+      {
+        "id": "6.3",
+        "title": "Refresh and reproducibility"
+      }
+    ]
+  },
+  {
+    "id": "C07",
+    "title": "QA/Test Management and Coverage",
+    "topics": [
+      {
+        "id": "7.1",
+        "title": "Test process and provenance"
+      },
+      {
+        "id": "7.2",
+        "title": "Three different coverages"
+      },
+      {
+        "id": "7.3",
+        "title": "Results versus tests"
+      }
+    ]
+  },
+  {
+    "id": "C08",
+    "title": "Defects and Operational Reliability",
+    "topics": [
+      {
+        "id": "8.1",
+        "title": "Defect cohorts and reopenings"
+      },
+      {
+        "id": "8.2",
+        "title": "Incidents are separate evidence"
+      }
+    ]
+  },
+  {
+    "id": "C09",
+    "title": "Delivery Flow and Pipeline Evidence",
+    "topics": [
+      {
+        "id": "9.1",
+        "title": "Engineering flow"
+      },
+      {
+        "id": "9.2",
+        "title": "DORA throughput and instability"
+      }
+    ]
+  },
+  {
+    "id": "C10",
+    "title": "Product Quality and Quality-in-Use Evidence",
+    "topics": [
+      {
+        "id": "10.1",
+        "title": "Functional suitability"
+      },
+      {
+        "id": "10.2",
+        "title": "Performance efficiency"
+      },
+      {
+        "id": "10.3",
+        "title": "Compatibility"
+      },
+      {
+        "id": "10.4",
+        "title": "Interaction capability"
+      },
+      {
+        "id": "10.5",
+        "title": "Reliability"
+      },
+      {
+        "id": "10.6",
+        "title": "Security"
+      },
+      {
+        "id": "10.7",
+        "title": "Maintainability"
+      },
+      {
+        "id": "10.8",
+        "title": "Flexibility"
+      },
+      {
+        "id": "10.9",
+        "title": "Safety"
+      },
+      {
+        "id": "10.10",
+        "title": "Beneficialness"
+      },
+      {
+        "id": "10.11",
+        "title": "Freedom from risk"
+      },
+      {
+        "id": "10.12",
+        "title": "Acceptability"
+      }
+    ]
+  },
+  {
+    "id": "C11",
+    "title": "Data Quality, Ethics, and Trust",
+    "topics": [
+      {
+        "id": "11.1",
+        "title": "Trust controls"
+      },
+      {
+        "id": "11.2",
+        "title": "Ethical collection and comparison"
+      }
+    ]
+  },
+  {
+    "id": "C12",
+    "title": "The Story: Build the Logical Sequence",
+    "topics": [
+      {
+        "id": "12.1",
+        "title": "Time and character stories"
+      },
+      {
+        "id": "12.2",
+        "title": "Layered narrative"
+      }
+    ]
+  },
+  {
+    "id": "C13",
+    "title": "The Telling: Honest Charts and Four Dashboards",
+    "topics": [
+      {
+        "id": "13.1",
+        "title": "Chart integrity and variation"
+      },
+      {
+        "id": "13.2",
+        "title": "Power BI dashboard build"
+      },
+      {
+        "id": "13.3",
+        "title": "Accessible reporting and alternatives"
+      }
+    ]
+  },
+  {
+    "id": "C14",
+    "title": "Case Clinics, Capstone, and Improvement",
+    "topics": [
+      {
+        "id": "14.1",
+        "title": "Three case clinics"
+      },
+      {
+        "id": "14.2",
+        "title": "Decision Memo and 30-day experiment"
+      }
+    ]
+  }
+]
